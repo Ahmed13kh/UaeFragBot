@@ -1,0 +1,83 @@
+/* General styling */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f8d7e1;  /* Light pink background */
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Container styling */
+.container {
+    width: 60%;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Header and description styling */
+h1, p {
+    font-size: 2em;
+    color: #c58fc4;
+    opacity: 0;
+    visibility: visible;
+    transition: opacity 0.5s ease;
+}
+
+/* Input field styling */
+input {
+    padding: 10px 18px;
+    width: 50%;
+    margin-bottom: 18px;
+    border: 2px solid #c58fc4;
+    border-radius: 25px;
+    font-size: 1.1em;
+    background-color: #fdf5f9;
+}
+
+input:focus {
+    outline: none;
+    border-color: #9b66b8;
+}
+
+/* Button styling */
+button {
+    padding: 8px 20px;
+    background-color: #c58fc4;
+    color: white;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #9b66b8;
+    transform: scale(1.05);
+}
+
+/* Chat box styling */
+.chat-box {
+    background-color: #f1e3f3;
+    padding: 15px;
+    margin-top: 25px;
+    border-radius: 8px;
+    text-align: left;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Styling the chat messages */
+.chat-box p {
+    font-size: 1.1em;
+    color: #5e4a72;
+}
+
+.chat-box strong {
+    color: #c58fc4;
+}
