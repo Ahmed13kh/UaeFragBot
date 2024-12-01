@@ -5,7 +5,7 @@ openai.api_key = "sk-proj-oLYwHWngUwIk6XB5yQo2MxRjkwHy22QB8OhZ7BLgoBmS08DwnCa25s
 
 # Upload the file for fine-tuning
 response = openai.File.create(
-    file=open("fixed_fine_tuning_data_prepared.jsonl", "rb"),
+    file=open("fine_tuning_data.jsonl", "rb"),
     purpose="fine-tune"
 )
 
