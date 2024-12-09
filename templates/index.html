@@ -12,7 +12,7 @@
         <h1 id="chatbot-header"></h1>
         <p id="chatbot-description"></p>
 
-    <!-- Conversation history -->
+        <!-- Conversation history -->
         <div id="chat-history" class="chat-history">
             {% if conversation %}
                 {% for entry in conversation %}
@@ -22,6 +22,11 @@
                     </div>
                 {% endfor %}
             {% endif %}
+        </div>
+
+        <!-- Loading indicator -->
+        <div id="loading-indicator" style="display: none;">
+            <p>FragBot is thinking<span id="dots"></span></p>
         </div>
 
         <!-- Form for user input -->
@@ -38,6 +43,8 @@
         </div>
         {% endif %}
     </div>
+     <!-- Link to external JavaScript file -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
     <script>
         // Typing effect for chatbot header and description

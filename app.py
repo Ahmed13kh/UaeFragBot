@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 import openai
-
+import time
 app = Flask(__name__)
 
 openai.api_key = "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"  # Replace with your OpenAI API key
@@ -19,6 +19,8 @@ def chat():
     user_input = request.form['user_input']
 
     try:
+        # Simulate processing time
+
         response = openai.ChatCompletion.create(
             model="ft:gpt-4o-mini-2024-07-18:personal::AZGpXZ6g",
             messages=[
