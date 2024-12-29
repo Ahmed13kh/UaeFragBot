@@ -1,13 +1,12 @@
 /* General styling */
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f8d7e1;  /* Light pink background */
+    background-color: #f8d7e1;
     margin: 0;
     padding: 0;
     color: #333;
 }
 
-/* Container styling */
 .container {
     width: 60%;
     margin: 50px auto;
@@ -18,7 +17,6 @@ body {
     text-align: center;
 }
 
-/* Header and description styling */
 h1 {
     color: #c58fc4;
     margin-bottom: 15px;
@@ -29,7 +27,6 @@ p {
     margin-bottom: 20px;
 }
 
-/* Input field styling */
 input {
     padding: 10px 18px;
     width: 50%;
@@ -45,7 +42,6 @@ input:focus {
     border-color: #9b66b8;
 }
 
-/* Button styling */
 button {
     padding: 8px 20px;
     background-color: #c58fc4;
@@ -62,28 +58,7 @@ button:hover {
     transform: scale(1.05);
 }
 
-/* Chat box styling */
-.response {
-    background-color: #f1e3f3;
-    padding: 15px;
-    margin-top: 25px;
-    border-radius: 8px;
-    text-align: left;
-    max-width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Styling the chat messages */
-.response p {
-    font-size: 1.1em;
-    color: #5e4a72;
-}
-
-.response strong {
-    color: #c58fc4;
-}
-/* Chat history container */
+/* Chat history */
 .chat-history {
     max-height: 400px;
     overflow-y: auto;
@@ -92,13 +67,37 @@ button:hover {
     border-radius: 8px;
     margin-bottom: 20px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
-/* Styling the chat boxes */
-.chat-box {
-    margin-bottom: 15px;
+/* Scroll-down button */
+#scroll-down-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 10;
+    background-color: #c58fc4;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
+#scroll-down-btn:hover {
+    background-color: #9b66b8;
+    transform: scale(1.1);
+}
+
+#scroll-down-btn:active {
+    transform: scale(0.95);
+}
+
+/* Chat box */
 .chat-box p {
     font-size: 1.1em;
     color: #5e4a72;
@@ -107,19 +106,65 @@ button:hover {
 .chat-box strong {
     color: #c58fc4;
 }
-/* Styling for the loading indicator */
-#loading-indicator {
-    font-size: 1.2em;
-    color: #6a4a6b;
-    margin: 20px 0;
-    text-align: center;
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #fdf5f9;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 1em;
+    border: 1px solid #e0cce0;
+}
+
+table th {
+    background-color: #c58fc4;
+    color: #fff;
     font-weight: bold;
 }
 
-/* Dots animation for the loading indicator */
-#loading-indicator span {
-    font-size: 1.2em;
+table td {
+    color: #5e4a72;
+    background-color: #fff;
+}
+
+table img {
+    max-width: 100px;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table a {
     color: #9b66b8;
+    text-decoration: none;
     font-weight: bold;
+    transition: color 0.3s ease;
 }
 
+table a:hover {
+    color: #5e4a72;
+}
+
+/* Scrollbar for chat history */
+.chat-history::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-history::-webkit-scrollbar-thumb {
+    background-color: #c58fc4;
+    border-radius: 10px;
+}
+
+.chat-history::-webkit-scrollbar-thumb:hover {
+    background-color: #9b66b8;
+}

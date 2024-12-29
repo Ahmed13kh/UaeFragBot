@@ -8,20 +8,41 @@
 </head>
 <body>
     <div class="container">
-        <!-- Typing effect text -->
-        <h1 id="chatbot-header"></h1>
-        <p id="chatbot-description"></p>
+        <h1 id="chatbot-header">UAEFragBot</h1>
+        <p id="chatbot-description">Ask me anything about UAE perfumes!</p>
 
         <!-- Conversation history -->
-        <div id="chat-history" class="chat-history">
+        <div class="chat-history">
             {% if conversation %}
                 {% for entry in conversation %}
                     <div class="chat-box">
                         <p><strong>You:</strong> {{ entry.user }}</p>
-                        <p><strong>FragBot:</strong> {{ entry.response }}</p>
+                        {% if entry.response.type == 'structured' %}
+                        <div class="horizontal-scroll" id="perfume-results">
+                            {% for perfume in entry.response.content %}
+                            <div class="perfume-card">
+                                <img src="{{ perfume.image }}" alt="{{ perfume.name }}" class="perfume-image">
+                                <h3>{{ perfume.name }}</h3>
+                                <p><strong>Designer:</strong> {{ perfume.designer }}</p>
+                                <p><strong>Description:</strong> {{ perfume.description }}</p>
+                                <p><strong>Gender:</strong> {{ perfume.gender }}</p>
+                                <p><strong>Rating:</strong> {{ perfume.rating }}</p>
+                                <p><strong>Notes:</strong> {{ perfume.notes }}</p>
+                                <p><strong>Longevity:</strong> {{ perfume.longevity }}</p>
+                                <p><strong>Sillage:</strong> {{ perfume.sillage }}</p>
+                                <p><strong>Price:</strong> {{ perfume.price }}</p>
+                                <p><a href="{{ perfume.link }}" target="_blank">View More</a></p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <p><strong>FragBot:</strong> {{ entry.response.content|safe }}</p>
+                        {% endif %}
                     </div>
                 {% endfor %}
             {% endif %}
+            <!-- Scroll Down Button -->
+            <button id="scroll-down-btn" title="Scroll Down">⬇</button>
         </div>
 
         <!-- Loading indicator -->
@@ -34,39 +55,7 @@
             <input type="text" id="user_input" name="user_input" placeholder="Type your question here..." required>
             <button type="submit">Send</button>
         </form>
-
-        <!-- Display chat history if user input exists -->
-        {% if user_input %}
-        <div class="chat-box">
-            <p><strong>You:</strong> {{ user_input }}</p>
-            <p><strong>Chatbot:</strong> {{ chatbot_response }}</p>
-        </div>
-        {% endif %}
     </div>
-     <!-- Link to external JavaScript file -->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-
-    <script>
-        // Typing effect for chatbot header and description
-        window.onload = function() {
-            typeText("chatbot-header", "UAEFragBot", 60); // Typing effect for header
-            typeText("chatbot-description", "Ask me anything about UAE perfumes!", 60); // Typing effect for description
-        }
-
-        // Function to simulate typing effect
-        function typeText(elementId, text, speed) {
-            let i = 0;
-            let element = document.getElementById(elementId);
-            element.innerHTML = ""; // Clear text before starting typing effect
-            function type() {
-                if (i < text.length) {
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
-                }
-            }
-            type();
-        }
-    </script>
 </body>
 </html>

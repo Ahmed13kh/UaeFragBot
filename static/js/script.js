@@ -1,14 +1,13 @@
-// Typing effect for chatbot header and description
-window.onload = function() {
-    typeText("chatbot-header", "UAEFragBot", 60); // Typing effect for header
-    typeText("chatbot-description", "Ask me anything about UAE perfumes!", 60); // Typing effect for description
+window.onload = function () {
+    typeText("chatbot-header", "UAEFragBot", 60);
+    typeText("chatbot-description", "Ask me anything about UAE perfumes!", 60);
 };
 
-// Function to simulate typing effect
 function typeText(elementId, text, speed) {
     let i = 0;
     let element = document.getElementById(elementId);
-    element.innerHTML = ""; // Clear text before starting typing effect
+    element.innerHTML = "";
+
     function type() {
         if (i < text.length) {
             element.innerHTML += text.charAt(i);
@@ -16,21 +15,14 @@ function typeText(elementId, text, speed) {
             setTimeout(type, speed);
         }
     }
+
     type();
 }
 
-// Show loading indicator and dots animation
-document.querySelector("form").addEventListener("submit", function (event) {
-    const userInput = document.getElementById("user_input");
+document.querySelector("form").addEventListener("submit", function () {
     const loadingIndicator = document.getElementById("loading-indicator");
-
-    // Clear the input field immediately
-
-
-    // Show loading indicator
     loadingIndicator.style.display = "block";
 
-    // Simulate dot animation
     let dots = "";
     const dotsElement = document.getElementById("dots");
     const interval = setInterval(() => {
@@ -38,9 +30,36 @@ document.querySelector("form").addEventListener("submit", function (event) {
         dotsElement.textContent = dots;
     }, 500);
 
-    // Allow the loading indicator to stay visible until the server processes the response
     setTimeout(() => {
-        userInput.value = ""; // Clear the input field after submission
-    }, 50); // Short delay to ensure the message is sent
+        loadingIndicator.style.display = "none";
+    }, 5000);
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const scrollDownBtn = document.getElementById("scroll-down-btn");
+    const chatHistory = document.querySelector(".chat-history");
+
+    // Scroll to the bottom of chat history
+    scrollDownBtn.addEventListener("click", () => {
+        chatHistory.scrollTo({
+            top: chatHistory.scrollHeight,
+            behavior: "smooth",
+        });
+    });
+
+    // Show or hide the scroll-down button based on scroll position
+    chatHistory.addEventListener("scroll", () => {
+        if (chatHistory.scrollTop < chatHistory.scrollHeight - chatHistory.clientHeight - 50) {
+            scrollDownBtn.style.display = "block";
+        } else {
+            scrollDownBtn.style.display = "none";
+        }
+    });
+
+    // Initially hide the button
+    scrollDownBtn.style.display = "none";
+});
+
+
+
 
