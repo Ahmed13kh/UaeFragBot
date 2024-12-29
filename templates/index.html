@@ -4,58 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UAE Perfume Chatbot</title>
+    <!-- Add Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Add FontAwesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- Add CSS Stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <h1 id="chatbot-header">UAEFragBot</h1>
         <p id="chatbot-description">Ask me anything about UAE perfumes!</p>
 
-        <!-- Conversation history -->
-        <div class="chat-history">
-            {% if conversation %}
-                {% for entry in conversation %}
-                    <div class="chat-box">
-                        <p><strong>You:</strong> {{ entry.user }}</p>
-                        {% if entry.response.type == 'structured' %}
-                        <div class="horizontal-scroll" id="perfume-results">
-                            {% for perfume in entry.response.content %}
-                            <div class="perfume-card">
-                                <img src="{{ perfume.image }}" alt="{{ perfume.name }}" class="perfume-image">
-                                <h3>{{ perfume.name }}</h3>
-                                <p><strong>Designer:</strong> {{ perfume.designer }}</p>
-                                <p><strong>Description:</strong> {{ perfume.description }}</p>
-                                <p><strong>Gender:</strong> {{ perfume.gender }}</p>
-                                <p><strong>Rating:</strong> {{ perfume.rating }}</p>
-                                <p><strong>Notes:</strong> {{ perfume.notes }}</p>
-                                <p><strong>Longevity:</strong> {{ perfume.longevity }}</p>
-                                <p><strong>Sillage:</strong> {{ perfume.sillage }}</p>
-                                <p><strong>Price:</strong> {{ perfume.price }}</p>
-                                <p><a href="{{ perfume.link }}" target="_blank">View More</a></p>
-                            </div>
-                            {% endfor %}
-                        </div>
-                        {% else %}
-                        <p><strong>FragBot:</strong> {{ entry.response.content|safe }}</p>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            <!-- Scroll Down Button -->
-            <button id="scroll-down-btn" title="Scroll Down">⬇</button>
-        </div>
+        <!-- Chat History -->
+        <div class="chat-history"></div>
 
-        <!-- Loading indicator -->
-        <div id="loading-indicator" style="display: none;">
-            <p>FragBot is thinking<span id="dots"></span></p>
-        </div>
-
-        <!-- Form for user input -->
-        <form action="/chat" method="POST">
+        <!-- Input Form -->
+        <form id="chat-form">
             <input type="text" id="user_input" name="user_input" placeholder="Type your question here..." required>
-            <button type="submit">Send</button>
+            <button type="submit"><i class="fas fa-paper-plane"></i> Send</button>
         </form>
     </div>
+
+    <!-- JavaScript -->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
