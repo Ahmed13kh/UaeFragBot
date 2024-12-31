@@ -6,121 +6,116 @@ import re
 from fragrance_notes import fragrance_notes
 
 app = Flask(__name__)
-openai.api_key = "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"
+openai.api_key = "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"
 
 # Load perfume data
 with open("perfume_data.json", "r") as file:
     perfume_data = json.load(file)
 
+# Normalize attributes for consistent matching
 def normalize_attribute(attribute):
-    """Normalize an attribute value for consistent comparison."""
     return attribute.lower().strip() if isinstance(attribute, str) else attribute
 
-def find_perfume_by_name(user_input):
-    """Search for a specific perfume by name and return comprehensive details."""
-    # Normalize the input
-    cleaned_input = re.sub(r"[^\w\s]", "", user_input.lower().strip())  # Remove punctuation
-
-    # Iterate through perfumes and check for matches
-    for perfume in perfume_data:
-        perfume_name = perfume['name'].lower()
-        designer_name = perfume['designer'].lower()
-
-        # Match the perfume name or 'name by designer'
-        if cleaned_input in perfume_name or cleaned_input in f"{perfume_name} by {designer_name}":
-            return {
-                "name": perfume['name'],
-                "designer": perfume['designer'],
-                "gender": perfume['gender'],
-                "rating": f"{perfume['rating']}/5",
-                "description": perfume['description'],
-                "top_notes": ', '.join(perfume.get('top notes', [])),
-                "mid_notes": ', '.join(perfume.get('mid notes', [])),
-                "base_notes": ', '.join(perfume.get('base notes', [])),
-                "longevity": perfume.get('longevity', 'Unknown'),
-                "sillage": perfume.get('sillage', 'Unknown'),
-                "pricevalue": perfume.get('pricevalue', 'Unknown'),
-                "link": perfume['url'],
-                "image": perfume['image']
-            }
-
-    # No match found
-    return {"error": f"Perfume '{user_input}' not found. Please try another name or variation."}
-
-# Normalize `perfume_data` attributes for reliable matching
+# Normalize perfume data
 for perfume in perfume_data:
+    perfume['name'] = normalize_attribute(perfume.get('name', ''))
+    perfume['designer'] = normalize_attribute(perfume.get('designer', ''))
     perfume['longevity'] = normalize_attribute(perfume.get('longevity', 'unknown'))
     perfume['sillage'] = normalize_attribute(perfume.get('sillage', 'unknown'))
     perfume['pricevalue'] = normalize_attribute(perfume.get('pricevalue', 'unknown'))
-    perfume['description'] = perfume.get('description', '').lower()  # Normalize description for fragrance_notes matching
-    perfume['designer'] = normalize_attribute(perfume.get('designer', 'unknown'))
+    perfume['description'] = perfume.get('description', '').lower()
     perfume['rating'] = perfume.get('rating', 0)
+    perfume['gender'] = normalize_attribute(perfume.get('gender', 'unknown'))
 
-def recommend_perfumes_by_criteria(criteria, num_recommendations=3):
-    """Recommend perfumes based on multiple criteria."""
-    recommendations = []
+# Extract preferences from user input
+def extract_preferences(user_input):
+    preferences = {}
 
+    # Match fragrance notes or description
+    for note in fragrance_notes:
+        if note in user_input:
+            preferences["notes"] = note
+            break
+
+    # Match designer names dynamically
+    designers = {normalize_attribute(perfume['designer']) for perfume in perfume_data}
+    for designer in designers:
+        if designer in user_input:
+            preferences["designer"] = designer
+            break
+
+    # Match attributes: longevity, sillage, pricevalue, gender
+    attributes = {
+        "longevity": {perfume['longevity'] for perfume in perfume_data},
+        "sillage": {perfume['sillage'] for perfume in perfume_data},
+        "pricevalue": {perfume['pricevalue'] for perfume in perfume_data},
+        "gender": {perfume['gender'] for perfume in perfume_data}
+    }
+
+    for attr, values in attributes.items():
+        for value in values:
+            if value in user_input:
+                preferences[attr] = value
+                break
+
+    # Match rating-related intent
+    rating_synonyms = {"highly rated", "top rated", "best rated", "good rating", "high rating"}
+    if any(synonym in user_input for synonym in rating_synonyms):
+        preferences["rating"] = 4.0  # Threshold for "highly rated"
+
+    return preferences
+
+# Find perfumes by name
+def find_perfume_by_name(user_input):
+    cleaned_input = normalize_attribute(re.sub(r"[^\w\s]", "", user_input))
     for perfume in perfume_data:
-        match = True  # Assume the perfume matches all criteria until proven otherwise
+        if cleaned_input in perfume['name'] or cleaned_input in f"{perfume['name']} by {perfume['designer']}":
+            return format_perfume_response(perfume)
+    return None
 
+# Recommend perfumes by criteria
+def recommend_perfumes_by_criteria(criteria, num_recommendations=3):
+    recommendations = []
+    for perfume in perfume_data:
+        match = True
         for key, value in criteria.items():
-            value_lower = value.lower()
-
+            value_lower = normalize_attribute(value)
             if key == "notes":
-                # Check in top, mid, and base notes
-                if not any(value_lower in note.lower() for note in perfume.get('top notes', []) + perfume.get('mid notes', []) + perfume.get('base notes', [])):
-                    match = False
-                    break
-            elif key == "designer":
-                # Match designer
-                if value_lower not in perfume['designer']:
+                # Match notes or description
+                if not any(value_lower in note.lower() for note in perfume.get('top notes', []) + perfume.get('mid notes', []) + perfume.get('base notes', [])) \
+                        and value_lower not in perfume.get('description', ''):
                     match = False
                     break
             elif key == "rating":
-                # Match rating threshold
-                if float(perfume['rating']) < float(value):
+                if perfume['rating'] < value:  # Handle numeric attribute
                     match = False
                     break
-            elif key == "longevity":
-                # Match longevity
-                if value_lower != perfume['longevity']:
-                    match = False
-                    break
-            elif key == "sillage":
-                # Match sillage
-                if value_lower != perfume['sillage']:
-                    match = False
-                    break
-            elif key == "pricevalue":
-                # Match price value
-                if value_lower != perfume['pricevalue']:
-                    match = False
-                    break
-            elif key == "description":
-                # Match fragrance_notes in the description
-                if value_lower not in perfume['description']:
-                    match = False
-                    break
-
+            elif normalize_attribute(perfume.get(key, '')) != value_lower:
+                match = False
+                break
         if match:
-            recommendations.append({
-                "name": perfume['name'],
-                "designer": perfume['designer'],
-                "rating": f"{perfume['rating']}/5",
-                "description": perfume['description'],
-                "top_notes": ', '.join(perfume.get('top notes', [])),
-                "mid_notes": ', '.join(perfume.get('mid notes', [])),
-                "base_notes": ', '.join(perfume.get('base notes', [])),
-                "longevity": perfume['longevity'],
-                "sillage": perfume['sillage'],
-                "pricevalue": perfume['pricevalue'],
-                "link": perfume['url'],
-                "image": perfume['image']
-            })
+            recommendations.append(format_perfume_response(perfume))
 
-    # Randomize the order and select a limited number of recommendations
     random.shuffle(recommendations)
-    return recommendations[:num_recommendations] if recommendations else None
+    return recommendations[:num_recommendations]
+
+# Format perfume response
+def format_perfume_response(perfume):
+    return {
+        "name": perfume['name'].title(),
+        "designer": perfume['designer'].title(),
+        "gender": perfume['gender'],
+        "rating": f"{perfume['rating']}/5",
+        "description": perfume['description'],
+        "top_notes": ', '.join(perfume.get('top notes', [])),
+        "mid_notes": ', '.join(perfume.get('mid notes', [])),
+        "base_notes": ', '.join(perfume.get('base notes', [])),
+        "longevity": perfume['longevity'],
+        "sillage": perfume['sillage'],
+        "pricevalue": perfume['pricevalue'],
+        "link": perfume.get('url', ''),
+        "image": perfume.get('image', '')
+    }
 
 @app.route('/')
 def home():
@@ -129,72 +124,27 @@ def home():
 @app.route('/chat', methods=['POST'])
 def chat():
     try:
-        user_input = request.form['user_input'].strip().lower()
+        user_input = request.form['user_input'].lower()
 
-        # Handle specific perfume queries
-        if "tell me about" in user_input or "describe" in user_input or "can you describe" in user_input:
-            # Extract the perfume name
-            perfume_name = re.sub(r"(tell me about|describe|can you describe)", "", user_input,
-                                  flags=re.IGNORECASE).strip()
+        # Check for specific perfume queries
+        if "tell me about" in user_input or "describe" in user_input:
+            perfume_name = re.sub(r"(tell me about|describe)", "", user_input, flags=re.IGNORECASE).strip()
             perfume_details = find_perfume_by_name(perfume_name)
-            if "error" in perfume_details:
-                return jsonify({"error": perfume_details["error"]})
-            return jsonify({"structured": perfume_details})
+            return jsonify({"structured": perfume_details}) if perfume_details else jsonify({"error": "Perfume not found."})
 
-        # Extract preferences for recommendations
-        criteria = {}
+        # Extract preferences
+        criteria = extract_preferences(user_input)
 
-        # Match longevity, sillage, pricevalue, designer, and notes
-        all_notes = set(
-            note.lower()
-            for perfume in perfume_data
-            for note in perfume.get('top notes', []) + perfume.get('mid notes', []) + perfume.get('base notes', [])
-        )
-        all_designers = set(perfume['designer'] for perfume in perfume_data)
-        all_attributes = {
-            "longevity": set(perfume['longevity'] for perfume in perfume_data),
-            "sillage": set(perfume['sillage'] for perfume in perfume_data),
-            "pricevalue": set(perfume['pricevalue'] for perfume in perfume_data),
-        }
-
-        # Match fragrance notes from perfume_data
-        for note in all_notes:
-            if note in user_input:
-                criteria["notes"] = note
-                break
-
-        # Match designer dynamically
-        for designer in all_designers:
-            if designer in user_input:
-                criteria["designer"] = designer
-                break
-
-        # Match other attributes dynamically
-        for attr, values in all_attributes.items():
-            for value in values:
-                if value in user_input:
-                    criteria[attr] = value
-                    break
-
-        # Match description using fragrance_notes
-        for note in fragrance_notes:
-            if note in user_input:
-                criteria["description"] = note
-                break
-
-        # Recommend perfumes based on extracted criteria
+        # Recommend based on criteria
         if criteria:
             recommendations = recommend_perfumes_by_criteria(criteria)
-            if recommendations:
-                return jsonify({"structured": recommendations})
-            else:
-                return jsonify({"error": "No perfumes found matching your preferences."})
+            return jsonify({"structured": recommendations}) if recommendations else jsonify({"error": "No perfumes found matching your preferences."})
 
-        # Use GPT-4 for general queries
+        # Fallback: Use fine-tuned GPT for general queries
         response = openai.ChatCompletion.create(
             model="ft:gpt-4o-2024-08-06:personal::AjoMgZCP",
             messages=[
-                {"role": "system", "content": "You are a knowledgeable and friendly perfume consultant specializing in UAE perfumes only."},
+                {"role": "system", "content": "You are a knowledgeable and friendly perfume consultant specializing in UAE perfumes Only"},
                 {"role": "user", "content": user_input}
             ],
             max_tokens=500
@@ -203,8 +153,7 @@ def chat():
         return jsonify({"response": gpt_response})
 
     except Exception as e:
-        return jsonify({"error": f"An internal error occurred: {str(e)}"}), 500
-
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

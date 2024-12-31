@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
                                 <img src="${perfume.image}" alt="${perfume.name}" class="perfume-image">
                                 <h3>${perfume.name}</h3>
                                 <p><strong>Designer:</strong> ${perfume.designer}</p>
+                                <p><strong>Gender:</strong> ${perfume.gender}</p>
                                 <p><strong>Top Notes:</strong> ${perfume.top_notes}</p>
                                 <p><strong>Mid Notes:</strong> ${perfume.mid_notes}</p>
                                 <p><strong>Base Notes:</strong> ${perfume.base_notes}</p>
@@ -51,6 +52,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             <img src="${data.structured.image}" alt="${data.structured.name}" class="perfume-image">
                             <h3>${data.structured.name}</h3>
                             <p><strong>Designer:</strong> ${data.structured.designer}</p>
+                            <p><strong>Gender:</strong> ${data.structured.gender}</p>
                             <p><strong>Top Notes:</strong> ${data.structured.top_notes}</p>
                             <p><strong>Mid Notes:</strong> ${data.structured.mid_notes}</p>
                             <p><strong>Base Notes:</strong> ${data.structured.base_notes}</p>
