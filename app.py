@@ -43,7 +43,7 @@ def extract_preferences(user_input):
         # Match designer names dynamically with partial matching
     designers = {normalize_attribute(perfume['designer']) for perfume in perfume_data}
     for designer in designers:
-        if designer in user_input or any(word in user_input for word in designer.split()):  # Partial match
+        if designer in user_input or any(word in user_input for word in designer.split()):
             preferences["designer"] = designer
             break
 
@@ -71,14 +71,14 @@ def extract_preferences(user_input):
 def find_perfume_by_name(user_input):
     cleaned_input = normalize_attribute(re.sub(r"[^\w\s]", "", user_input))
 
-    # Attempt to find the perfume using normalized names
+    # Attempt exact match with normalized names
     for perfume in perfume_data:
         if cleaned_input in perfume['name'] or cleaned_input in f"{perfume['name']} by {perfume['designer']}":
             return format_perfume_response(perfume)
 
-    # Handle cases with partial designer names in the query
+    # Attempt partial match for designer and perfume names
     for perfume in perfume_data:
-        if cleaned_input in perfume['name'] or cleaned_input in perfume['designer']:
+        if cleaned_input in normalize_attribute(perfume['name']) or cleaned_input in normalize_attribute(perfume['designer']):
             return format_perfume_response(perfume)
 
     return None
@@ -100,8 +100,10 @@ def recommend_perfumes_by_criteria(criteria, num_recommendations=3):
                     match = False
                     break
             elif key == "designer":
-                # Allow partial match for designer name
-                if value_lower not in perfume.get('designer', '').lower():
+                    # Allow partial matches for designer names
+                designer_name = normalize_attribute(perfume.get("designer", ""))
+                if value_lower not in designer_name and not any(
+                    word in designer_name for word in value_lower.split()):
                     match = False
                     break
             else:
@@ -144,7 +146,9 @@ def chat():
         user_input = request.form['user_input'].lower()
 
         # Check for specific perfume queries with flexible intent extraction
-        intent_match = re.search(r"(tell me about|describe|what can you say about|give me details about)\s+(.*)", user_input, re.IGNORECASE)
+        intent_match = re.search(
+            r"(tell me about|describe|what can you say about|give me details about|talk about)\s+(.*)", user_input,
+            re.IGNORECASE)
         if intent_match:
             perfume_name = intent_match.group(2).strip()
             perfume_details = find_perfume_by_name(perfume_name)
