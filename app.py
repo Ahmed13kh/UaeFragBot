@@ -40,19 +40,14 @@ def extract_preferences(user_input):
             preferences["notes"] = note
             break
 
-        # Match designer names dynamically with partial matching
-    designers = {normalize_attribute(perfume['designer']) for perfume in perfume_data}
-    for designer in designers:
-        if designer in user_input or any(word in user_input for word in designer.split()):
-            preferences["designer"] = designer
-            break
 
     # Match attributes: longevity, sillage, pricevalue, gender
     attributes = {
         "longevity": {perfume['longevity'] for perfume in perfume_data},
         "sillage": {perfume['sillage'] for perfume in perfume_data},
         "pricevalue": {perfume['pricevalue'] for perfume in perfume_data},
-        "gender": {perfume['gender'] for perfume in perfume_data}
+        "gender": {perfume['gender'] for perfume in perfume_data},
+        "designer": {perfume['designer'] for perfume in perfume_data}
     }
 
     for attr, values in attributes.items():
@@ -67,21 +62,37 @@ def extract_preferences(user_input):
         preferences["rating"] = 4.0  # Threshold for "highly rated"
 
     return preferences
-# Improved function to find perfumes by name
+
+
 def find_perfume_by_name(user_input):
     cleaned_input = normalize_attribute(re.sub(r"[^\w\s]", "", user_input))
 
-    # Attempt exact match with normalized names
-    for perfume in perfume_data:
-        if cleaned_input in perfume['name'] or cleaned_input in f"{perfume['name']} by {perfume['designer']}":
-            return format_perfume_response(perfume)
+    # Try to extract designer and perfume name from the user input
+    words = cleaned_input.split()
+    potential_designer = None
+    potential_name = None
 
-    # Attempt partial match for designer and perfume names
+    # Check if any word matches a designer name exactly
     for perfume in perfume_data:
-        if cleaned_input in normalize_attribute(perfume['name']) or cleaned_input in normalize_attribute(perfume['designer']):
-            return format_perfume_response(perfume)
+        designer = normalize_attribute(perfume['designer'])
+        if designer in cleaned_input:
+            potential_designer = designer
+            break
+
+    # If a designer is found, look for a matching perfume name
+    if potential_designer:
+        for perfume in perfume_data:
+            if potential_designer == normalize_attribute(perfume['designer']):
+                if any(word in normalize_attribute(perfume['name']) for word in words):
+                    return format_perfume_response(perfume)
+    else:
+        # If no designer is explicitly found, try partial match for perfume names
+        for perfume in perfume_data:
+            if cleaned_input in normalize_attribute(perfume['name']):
+                return format_perfume_response(perfume)
 
     return None
+
 
 def recommend_perfumes_by_criteria(criteria, num_recommendations=3):
     recommendations = []
@@ -97,13 +108,6 @@ def recommend_perfumes_by_criteria(criteria, num_recommendations=3):
                     break
             elif key == "rating":
                 if perfume['rating'] < value:  # Handle numeric attribute
-                    match = False
-                    break
-            elif key == "designer":
-                    # Allow partial matches for designer names
-                designer_name = normalize_attribute(perfume.get("designer", ""))
-                if value_lower not in designer_name and not any(
-                    word in designer_name for word in value_lower.split()):
                     match = False
                     break
             else:
