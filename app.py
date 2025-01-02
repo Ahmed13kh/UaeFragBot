@@ -71,13 +71,23 @@ def find_perfume_by_name(user_input):
         perfume_name = normalize_attribute(perfume['name'])
         designer_name = normalize_attribute(perfume['designer'])
 
+        # Case 1: Match exact name and designer without relying on "by"
+        if cleaned_input in f"{perfume_name} {designer_name}" or cleaned_input in f"{designer_name} {perfume_name}":
+            return format_perfume_response(perfume)
 
-        if cleaned_input == f"{perfume_name} by {designer_name}":
-             return format_perfume_response(perfume)
-
+        # Case 2: Match exact name only
         if cleaned_input == perfume_name:
-             return format_perfume_response(perfume)
+            return format_perfume_response(perfume)
 
+        # Case 3: Match designer name followed by part of the perfume name
+        if cleaned_input.startswith(designer_name) and perfume_name in cleaned_input:
+            return format_perfume_response(perfume)
+
+        # Case 4: Match perfume name followed by part of the designer name
+        if cleaned_input.startswith(perfume_name) and designer_name in cleaned_input:
+            return format_perfume_response(perfume)
+
+    # No matches found
     return None
 
 
