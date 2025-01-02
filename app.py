@@ -65,32 +65,23 @@ def extract_preferences(user_input):
 
 
 def find_perfume_by_name(user_input):
-    cleaned_input = normalize_attribute(re.sub(r"[^\w\s]", "", user_input))
+    cleaned_input = normalize_attribute(re.sub(r"[^\w\s']", "", user_input))
 
-    # Try to extract designer and perfume name from the user input
-    words = cleaned_input.split()
-    potential_designer = None
-    potential_name = None
-
-    # Check if any word matches a designer name exactly
     for perfume in perfume_data:
-        designer = normalize_attribute(perfume['designer'])
-        if designer in cleaned_input:
-            potential_designer = designer
-            break
+        perfume_name = normalize_attribute(perfume['name'])
+        designer_name = normalize_attribute(perfume['designer'])
 
-    # If a designer is found, look for a matching perfume name
-    if potential_designer:
-        for perfume in perfume_data:
-            if potential_designer == normalize_attribute(perfume['designer']):
-                if any(word in normalize_attribute(perfume['name']) for word in words):
-                    return format_perfume_response(perfume)
-    else:
-        # If no designer is explicitly found, try partial match for perfume names
-        for perfume in perfume_data:
-            if cleaned_input in normalize_attribute(perfume['name']):
-                return format_perfume_response(perfume)
+        print(f"Checking: {cleaned_input} against {perfume_name} by {designer_name}")
 
+        if cleaned_input == f"{perfume_name} by {designer_name}":
+            print("Exact match found (name + designer)")
+            return format_perfume_response(perfume)
+
+        if cleaned_input == perfume_name:
+            print("Exact match found (name only)")
+            return format_perfume_response(perfume)
+
+    print("No exact matches found.")
     return None
 
 
