@@ -71,17 +71,13 @@ def find_perfume_by_name(user_input):
         perfume_name = normalize_attribute(perfume['name'])
         designer_name = normalize_attribute(perfume['designer'])
 
-        print(f"Checking: {cleaned_input} against {perfume_name} by {designer_name}")
 
         if cleaned_input == f"{perfume_name} by {designer_name}":
-            print("Exact match found (name + designer)")
-            return format_perfume_response(perfume)
+             return format_perfume_response(perfume)
 
         if cleaned_input == perfume_name:
-            print("Exact match found (name only)")
-            return format_perfume_response(perfume)
+             return format_perfume_response(perfume)
 
-    print("No exact matches found.")
     return None
 
 
