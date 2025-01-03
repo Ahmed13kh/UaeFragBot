@@ -167,3 +167,74 @@ button:hover {
 .chat-history::-webkit-scrollbar-thumb:hover {
     background-color: #aaa;
 }
+/* Typing Dots Animation */
+.typing-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px auto;
+    height: 20px;
+}
+
+.typing-indicator span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin: 0 4px;
+    background-color: #4a90e2;
+    border-radius: 50%;
+    animation: bounce-horizontal 1.5s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes bounce-horizontal {
+    0%, 80%, 100% {
+        transform: translateX(0);
+    }
+    40% {
+        transform: translateX(-10px);
+    }
+}
+
+/* Apply title font to the placeholder */
+#user_input {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px; /* Adjust the font size as needed */
+}
+
+#user_input::placeholder {
+    font-family: 'Playfair Display', serif;
+    color: #aaa; /* Optional: Change placeholder color */
+    font-size: 16px; /* Ensure it matches the input text */
+}
+/* Input Field Style for Curvy Edges */
+#user_input {
+    border-radius: 20px; /* Match this radius for the button */
+}
+
+/* Send Button Style with Curvy Edges */
+/* Send Button Style with Curvy Edges */
+#chat-form button {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff; /* Text color */
+    background-color: #4a90e2; /* Matches the bouncing dots' color */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px; /* Match input field's curve */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+/* Hover Effect for Button */
+#chat-form button:hover {
+    background-color: #357ab7; /* Slightly darker blue on hover */
+}

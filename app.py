@@ -57,7 +57,7 @@ def extract_preferences(user_input):
                 break
 
     # Match rating-related intent
-    rating_synonyms = {"highly rated", "top rated", "best rated", "good rating", "high rating"}
+    rating_synonyms = {"highly rated", "top rated", "best rated", "best", "good rating", "high rating"}
     if any(synonym in user_input for synonym in rating_synonyms):
         preferences["rating"] = 4.0  # Threshold for "highly rated"
 
