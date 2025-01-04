@@ -65,6 +65,42 @@ h1 {
     color: #333;
 }
 
+/* Typing Indicator Animation */
+.typing-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px auto;
+    height: 20px;
+}
+
+.typing-indicator span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin: 0 4px;
+    background-color: #4a90e2;
+    border-radius: 50%;
+    animation: bounce 1.5s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+}
+
 /* Perfume Card Styling */
 .perfume-card {
     display: inline-block;
@@ -113,7 +149,7 @@ h1 {
     background-color: #357ab7;
 }
 
-/* Form Styling */
+/* Input Form Styling */
 form {
     display: flex;
     justify-content: space-between;
@@ -167,74 +203,73 @@ button:hover {
 .chat-history::-webkit-scrollbar-thumb:hover {
     background-color: #aaa;
 }
-/* Typing Dots Animation */
-.typing-indicator {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 10px auto;
-    height: 20px;
+
+/* Guide Container */
+.guide-container {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px auto;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left; /* Left align the text */
+    line-height: 1.6; /* Improve readability with better line height */
+    font-size: 1em; /* Ensure consistent text size */
 }
 
-.typing-indicator span {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    margin: 0 4px;
-    background-color: #4a90e2;
-    border-radius: 50%;
-    animation: bounce-horizontal 1.5s infinite ease-in-out;
+/* Guide Section */
+.guide-section {
+    margin-bottom: 20px; /* Add spacing between sections */
 }
 
-.typing-indicator span:nth-child(2) {
-    animation-delay: 0.2s;
+/* Guide Header */
+.guide-container h2,
+.guide-container h3 {
+    margin-bottom: 10px; /* Add spacing below headers */
+    color: #4a4a4a; /* Consistent header color */
+    font-size: 1.5em; /* Adjust font size for headers */
 }
 
-.typing-indicator span:nth-child(3) {
-    animation-delay: 0.4s;
+/* Guide List */
+.guide-container ul {
+    list-style: disc inside; /* Keep bullets aligned inside */
+    margin: 10px 0 10px 20px; /* Add space between list items and the container */
+    padding-left: 0; /* Avoid unnecessary padding */
 }
 
-@keyframes bounce-horizontal {
-    0%, 80%, 100% {
-        transform: translateX(0);
-    }
-    40% {
-        transform: translateX(-10px);
-    }
+.guide-container ul li {
+    margin-bottom: 8px; /* Add space between items */
+    line-height: 1.4; /* Ensure readability for longer lines */
+    color: #333; /* Match text color with the rest */
+    font-size: 1em; /* Consistent font size */
 }
 
-/* Apply title font to the placeholder */
-#user_input {
+/* Specific Query Styles */
+.guide-container ul li code {
     font-family: 'Playfair Display', serif;
-    font-size: 16px; /* Adjust the font size as needed */
-}
-
-#user_input::placeholder {
-    font-family: 'Playfair Display', serif;
-    color: #aaa; /* Optional: Change placeholder color */
-    font-size: 16px; /* Ensure it matches the input text */
-}
-/* Input Field Style for Curvy Edges */
-#user_input {
-    border-radius: 20px; /* Match this radius for the button */
-}
-
-/* Send Button Style with Curvy Edges */
-/* Send Button Style with Curvy Edges */
-#chat-form button {
-    font-family: 'Playfair Display', serif;
-    font-size: 16px;
-    font-weight: bold;
-    color: #fff; /* Text color */
-    background-color: #4a90e2; /* Matches the bouncing dots' color */
+    font-size: 1.1em;
+    color: #333; /* Match the text color */
+    font-style: normal; /* Normal font, not italic */
+    background: none;
     border: none;
-    padding: 10px 20px;
-    border-radius: 20px; /* Match input field's curve */
-    cursor: pointer;
-    transition: background-color 0.3s ease; /* Smooth hover effect */
+    padding: 0;
 }
 
-/* Hover Effect for Button */
-#chat-form button:hover {
-    background-color: #357ab7; /* Slightly darker blue on hover */
+/* Dropdown for Perfume Names */
+#perfume-names {
+    margin-top: 10px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    width: 100%; /* Full width for better alignment */
+    background-color: #fff;
+    color: #333; /* Match text color */
 }
+
+/* Dropdown Options */
+#perfume-names option {
+    font-size: 1em;
+    color: #333; /* Match text color */
+    text-transform: capitalize; /* Ensure text looks clean */
+}
+

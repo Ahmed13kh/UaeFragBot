@@ -18,6 +18,41 @@
         <h1 id="chatbot-header">UAE-FragBot</h1>
         <p id="chatbot-description">Ask me anything about UAE perfumes!</p>
 
+        <!-- Guide Section -->
+        <div class="guide-container">
+            <h2>Guide to Describing Your Preferences</h2>
+
+            <!-- Product-Specific Queries -->
+            <div class="guide-section">
+                <h3>Product-Specific Queries</h3>
+                <p>Use phrases like:</p>
+                <ul>
+                    <li><code>Give me details about</code> <strong>[Product Name]</strong></li>
+                    <li><code>Describe</code> <strong>[Product Name]</strong></li>
+                </ul>
+                <label for="perfume-names">Choose a Perfume:</label>
+                <select id="perfume-names">
+                    <option value="">-- Select a Perfume --</option>
+                </select>
+            </div>
+
+            <!-- Recommendation Queries -->
+            <div class="guide-section">
+                <h3>Recommendation Queries</h3>
+                <p>Use these preferences to describe your ideal perfume:</p>
+                <ul>
+                    <li><strong>Designers:</strong> <span id="designers"></span>.</li>
+                    <li><strong>Gender:</strong> For men, For women, Unisex.</li>
+                    <li><strong>Season:</strong> Winter, Summer.</li>
+                    <li><strong>Notes:</strong> <span id="notes"></span>.</li>
+                    <li><strong>Longevity:</strong> Moderate, Long lasting, Eternal.</li>
+                    <li><strong>Sillage:</strong> Strong, Enormous.</li>
+                    <li><strong>Rating:</strong> Top rated, High rating.</li>
+                    <li><strong>Price Value:</strong> Ok, Good.</li>
+                </ul>
+            </div>
+        </div>
+
         <!-- Chat History -->
         <div class="chat-history"></div>
 
@@ -28,7 +63,14 @@
         </form>
     </div>
 
-    <!-- JavaScript -->
+    <!-- JSON Data for Perfume and Fragrance Notes -->
+    <script id="perfume-data" type="application/json">
+        {{ perfume_data|tojson }}
+    </script>
+    <script id="fragrance-notes" type="application/json">
+        {{ fragrance_notes|tojson }}
+    </script>
+
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

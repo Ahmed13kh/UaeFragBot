@@ -1,10 +1,40 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("chat-form");
     const chatHistory = document.querySelector(".chat-history");
+    const userInput = document.getElementById("user_input");
 
-    form.addEventListener("submit", function(event) {
+    // Extract JSON data from script tags
+    const perfumeDataElement = document.getElementById("perfume-data");
+    const fragranceNotesElement = document.getElementById("fragrance-notes");
+    const perfumeData = JSON.parse(perfumeDataElement.textContent);
+    const fragranceNotes = JSON.parse(fragranceNotesElement.textContent);
+
+    // Populate perfume names dropdown
+    const perfumeNamesDropdown = document.getElementById("perfume-names");
+    perfumeData.forEach(perfume => {
+        const option = document.createElement("option");
+        option.value = perfume.name;
+        option.textContent = perfume.name.charAt(0).toUpperCase() + perfume.name.slice(1);
+        perfumeNamesDropdown.appendChild(option);
+    });
+
+    // Populate designers and notes
+    const designers = [...new Set(perfumeData.map(perfume => perfume.designer.charAt(0).toUpperCase() + perfume.designer.slice(1)))];
+    document.getElementById("designers").textContent = designers.join(", ");
+
+    const notes = fragranceNotes.map(note => note.charAt(0).toUpperCase() + note.slice(1)).join(", ");
+    document.getElementById("notes").textContent = notes;
+
+    // Add event listener to perfume dropdown
+    perfumeNamesDropdown.addEventListener("change", function () {
+        if (this.value) {
+            userInput.value = `Give me details about ${this.value}`;
+        }
+    });
+
+    form.addEventListener("submit", function (event) {
         event.preventDefault();
-        const userInput = document.getElementById("user_input");
+
         if (!userInput.value.trim()) {
             alert("Please type a question!");
             return;
@@ -47,13 +77,14 @@ document.addEventListener("DOMContentLoaded", function() {
                     // Add bot's response
                     const botDiv = document.createElement("div");
                     botDiv.className = "chat-box";
+
                     if (data.structured) {
                         if (Array.isArray(data.structured)) {
                             botDiv.innerHTML = `<p><strong>FragBot:</strong> Here are some suggestions:</p>`;
                             data.structured.forEach(perfume => {
                                 botDiv.innerHTML += `
                                     <div class="perfume-card">
-                                        <img src="${perfume.image}" alt="${perfume.name}" class="perfume-image">
+                                        <img src="${perfume.image}" alt="${perfume.name}" class="perfume-image" style="width: 150px; height: auto;">
                                         <h3>${perfume.name}</h3>
                                         <p><strong>Designer:</strong> ${perfume.designer}</p>
                                         <p><strong>Gender:</strong> ${perfume.gender}</p>
@@ -61,8 +92,9 @@ document.addEventListener("DOMContentLoaded", function() {
                                         <p><strong>Mid Notes:</strong> ${perfume.mid_notes}</p>
                                         <p><strong>Base Notes:</strong> ${perfume.base_notes}</p>
                                         <p><strong>Description:</strong> ${perfume.description}</p>
+                                        <p><strong>Season:</strong> ${perfume.season}</p>
                                         <h4 style="font-size: larger;">Reviews</h4>
-<p><strong>Longevity:</strong> ${perfume.longevity}</p>
+                                        <p><strong>Longevity:</strong> ${perfume.longevity}</p>
                                         <p><strong>Sillage:</strong> ${perfume.sillage}</p>
                                         <p><strong>Rating:</strong> ${perfume.rating}</p>
                                         <p><strong>Price Value:</strong> ${perfume.pricevalue}</p>
@@ -72,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         } else {
                             botDiv.innerHTML = `
                                 <div class="perfume-card">
-                                    <img src="${data.structured.image}" alt="${data.structured.name}" class="perfume-image">
+                                    <img src="${data.structured.image}" alt="${data.structured.name}" class="perfume-image" style="width: 150px; height: auto;">
                                     <h3>${data.structured.name}</h3>
                                     <p><strong>Designer:</strong> ${data.structured.designer}</p>
                                     <p><strong>Gender:</strong> ${data.structured.gender}</p>
@@ -80,6 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
                                     <p><strong>Mid Notes:</strong> ${data.structured.mid_notes}</p>
                                     <p><strong>Base Notes:</strong> ${data.structured.base_notes}</p>
                                     <p><strong>Description:</strong> ${data.structured.description}</p>
+                                    <p><strong>Season:</strong> ${data.structured.season}</p>
                                     <h4>Reviews</h4>
                                     <p><strong>Longevity:</strong> ${data.structured.longevity}</p>
                                     <p><strong>Sillage:</strong> ${data.structured.sillage}</p>
@@ -93,6 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     } else {
                         botDiv.innerHTML = `<p><strong>FragBot:</strong> ${data.response}</p>`;
                     }
+
                     chatHistory.appendChild(botDiv);
                     chatHistory.scrollTop = chatHistory.scrollHeight;
                 })

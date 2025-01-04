@@ -26,6 +26,8 @@ for perfume in perfume_data:
     perfume['description'] = perfume.get('description', '').lower()
     perfume['rating'] = perfume.get('rating', 0)
     perfume['gender'] = normalize_attribute(perfume.get('gender', 'unknown'))
+    perfume['season'] = normalize_attribute(perfume.get('season', 'unknown'))
+
 
 # Updated function for handling designer names dynamically
 def extract_preferences(user_input):
@@ -54,7 +56,9 @@ def extract_preferences(user_input):
         "sillage": {perfume['sillage'] for perfume in perfume_data},
         "pricevalue": {perfume['pricevalue'] for perfume in perfume_data},
         "gender": {perfume['gender'] for perfume in perfume_data},
-        "designer": {perfume['designer'] for perfume in perfume_data}
+        "designer": {perfume['designer'] for perfume in perfume_data},
+        "season": {perfume['season'] for perfume in perfume_data}
+
     }
 
     for attr, values in attributes.items():
@@ -139,6 +143,7 @@ def format_perfume_response(perfume):
         "gender": perfume['gender'],
         "rating": f"{perfume['rating']}/5",
         "description": perfume['description'],
+        "season": perfume['season'],
         "top_notes": ', '.join(perfume.get('top notes', [])),
         "mid_notes": ', '.join(perfume.get('mid notes', [])),
         "base_notes": ', '.join(perfume.get('base notes', [])),
@@ -151,7 +156,8 @@ def format_perfume_response(perfume):
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('index.html', perfume_data=perfume_data, fragrance_notes=fragrance_notes)
+
 
 @app.route('/chat', methods=['POST'])
 def chat():
