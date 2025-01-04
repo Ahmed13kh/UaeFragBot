@@ -51,6 +51,9 @@ document.addEventListener("DOMContentLoaded", function () {
         // Clear the input field
         userInput.value = "";
 
+        // Reset dropdown to default
+        perfumeNamesDropdown.value = "";
+
         // Add typing indicator
         const typingDiv = document.createElement("div");
         typingDiv.className = "chat-box typing-indicator";

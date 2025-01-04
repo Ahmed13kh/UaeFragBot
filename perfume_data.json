@@ -4747,7 +4747,7 @@
         ],
         "longevity": "eternal",
         "sillage": "enormous",
-        "pricevalue": "great",
+        "pricevalue": "good",
         "season": "winter"
     },
     {
@@ -6369,9 +6369,9 @@
             "Oak Tree",
             "Tolu Balsam"
         ],
-        "longevity": "weak",
-        "sillage": "weak",
-        "pricevalue": "over",
+        "longevity": "Moderate",
+        "sillage": "intimate",
+        "pricevalue": "ok",
         "season": "winter"
     },
     {
@@ -6547,7 +6547,7 @@
         ],
         "longevity": "eternal",
         "sillage": "enormous",
-        "pricevalue": "great",
+        "pricevalue": "good",
         "season": "summer"
     },
     {
@@ -7339,7 +7339,7 @@
         "base notes": [],
         "longevity": "eternal",
         "sillage": "enormous",
-        "pricevalue": "great",
+        "pricevalue": "good",
         "season": "winter"
     },
     {
@@ -7699,7 +7699,7 @@
         ],
         "longevity": "eternal",
         "sillage": "enormous",
-        "pricevalue": "great",
+        "pricevalue": "good",
         "season": "winter"
     },
     {
@@ -8357,7 +8357,7 @@
         ],
         "longevity": "eternal",
         "sillage": "enormous",
-        "pricevalue": "great",
+        "pricevalue": "good",
         "season": "winter"
     },
     {
@@ -8552,7 +8552,7 @@
         ],
         "longevity": "eternal",
         "sillage": "enormous",
-        "pricevalue": "great",
+        "pricevalue": "good",
         "season": "winter"
     },
     {
@@ -9072,7 +9072,7 @@
         ],
         "longevity": "eternal",
         "sillage": "enormous",
-        "pricevalue": "great",
+        "pricevalue": "good",
         "season": "summer"
     },
     {
@@ -9523,7 +9523,7 @@
         ],
         "longevity": "eternal",
         "sillage": "enormous",
-        "pricevalue": "great",
+        "pricevalue": "good",
         "season": "winter"
     },
     {
