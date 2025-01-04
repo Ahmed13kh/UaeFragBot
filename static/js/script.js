@@ -61,7 +61,8 @@ document.addEventListener("DOMContentLoaded", function() {
                                         <p><strong>Mid Notes:</strong> ${perfume.mid_notes}</p>
                                         <p><strong>Base Notes:</strong> ${perfume.base_notes}</p>
                                         <p><strong>Description:</strong> ${perfume.description}</p>
-                                        <p><strong>Longevity:</strong> ${perfume.longevity}</p>
+                                        <h4 style="font-size: larger;">Reviews</h4>
+<p><strong>Longevity:</strong> ${perfume.longevity}</p>
                                         <p><strong>Sillage:</strong> ${perfume.sillage}</p>
                                         <p><strong>Rating:</strong> ${perfume.rating}</p>
                                         <p><strong>Price Value:</strong> ${perfume.pricevalue}</p>
@@ -79,6 +80,7 @@ document.addEventListener("DOMContentLoaded", function() {
                                     <p><strong>Mid Notes:</strong> ${data.structured.mid_notes}</p>
                                     <p><strong>Base Notes:</strong> ${data.structured.base_notes}</p>
                                     <p><strong>Description:</strong> ${data.structured.description}</p>
+                                    <h4>Reviews</h4>
                                     <p><strong>Longevity:</strong> ${data.structured.longevity}</p>
                                     <p><strong>Sillage:</strong> ${data.structured.sillage}</p>
                                     <p><strong>Rating:</strong> ${data.structured.rating}</p>

@@ -34,12 +34,19 @@ def extract_preferences(user_input):
     # Normalize user input
     user_input = normalize_attribute(user_input)
 
-    # Match fragrance notes or description
+    # Match fragrance notes in the description
     for note in fragrance_notes:
         if note in user_input:
-            preferences["notes"] = note
+            preferences["description_match"] = note
             break
 
+    # Match notes in perfume data
+    notes_attributes = ['top notes', 'mid notes', 'base notes']
+    for perfume in perfume_data:
+        for attr in notes_attributes:
+            if any(note in user_input for note in perfume.get(attr, [])):
+                preferences["notes_match"] = perfume['name']
+                break
 
     # Match attributes: longevity, sillage, pricevalue, gender
     attributes = {
@@ -97,10 +104,15 @@ def recommend_perfumes_by_criteria(criteria, num_recommendations=3):
         match = True
         for key, value in criteria.items():
             value_lower = normalize_attribute(value)
-            if key == "notes":
-                # Match notes or description
-                if not any(value_lower in note.lower() for note in perfume.get('top notes', []) + perfume.get('mid notes', []) + perfume.get('base notes', [])) \
-                        and value_lower not in perfume.get('description', ''):
+            if key == "description_match":
+                # Match description with fragrance_notes
+                if value_lower not in perfume.get('description', ''):
+                    match = False
+                    break
+            elif key == "notes_match":
+                # Match notes in perfume data
+                notes_attributes = ['top notes', 'mid notes', 'base notes']
+                if not any(value_lower in note.lower() for attr in notes_attributes for note in perfume.get(attr, [])):
                     match = False
                     break
             elif key == "rating":
