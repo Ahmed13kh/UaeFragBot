@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "What are the most popular perfume brands?",
         "Can you tell me about perfumeX?",
         "What are the top-rated perfumes from designerX?",
-        "I need a long-lasting summer perfume with fresh notes for men.",
+        "I need a long-lasting summer perfume with Lemon notes for men.",
         "Give me a woody perfume with strong sillage for women.",
         "Can you explain what sillage means in perfumes?"
     ];
