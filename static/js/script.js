@@ -3,6 +3,63 @@ document.addEventListener("DOMContentLoaded", function () {
     const chatHistory = document.querySelector(".chat-history");
     const userInput = document.getElementById("user_input");
 
+    // Suggestions list data
+    const suggestions = [
+        "What are the most popular perfume brands?",
+        "Can you tell me about perfumeX?",
+        "What are the top-rated perfumes from designerX?",
+        "I need a long-lasting summer perfume with fresh notes for men.",
+        "Give me a woody perfume with strong sillage for women.",
+        "Can you explain what sillage means in perfumes?"
+    ];
+
+    // Create suggestions container
+    const suggestionsContainer = document.createElement("ul");
+    suggestionsContainer.classList.add("suggestions-list");
+
+    // Populate suggestions
+    suggestions.forEach((suggestion) => {
+        const listItem = document.createElement("li");
+        listItem.textContent = suggestion;
+
+       // Populate input field and hide suggestions on click
+        listItem.addEventListener("mousedown", (e) => {
+            e.preventDefault(); // Prevent blur from firing
+            userInput.value = suggestion;
+            suggestionsContainer.style.display = "none"; // Hide the list after selection
+        });
+        suggestionsContainer.appendChild(listItem);
+    });
+
+    // Add the suggestions container to the DOM
+    document.body.appendChild(suggestionsContainer);
+
+    // Adjust suggestions position dynamically
+    const adjustPosition = () => {
+        const rect = userInput.getBoundingClientRect();
+        suggestionsContainer.style.position = "absolute";
+        suggestionsContainer.style.top = `${rect.bottom + window.scrollY}px`; // Below the input
+        suggestionsContainer.style.left = `${rect.left + window.scrollX}px`; // Align with the input
+        suggestionsContainer.style.width = `${rect.width}px`; // Match input width
+    };
+
+    // Show suggestions on click
+    userInput.addEventListener("click", () => {
+        adjustPosition(); // Adjust position dynamically
+        suggestionsContainer.style.display = "block"; // Show suggestions
+    });
+
+    // Hide suggestions on blur (delay for click)
+    userInput.addEventListener("blur", () => {
+        setTimeout(() => {
+            suggestionsContainer.style.display = "none";
+        }, 100);
+    });
+
+    // Recalculate position on window resize or scroll
+    window.addEventListener("resize", adjustPosition);
+    window.addEventListener("scroll", adjustPosition);
+
     // Extract JSON data from script tags
     const perfumeDataElement = document.getElementById("perfume-data");
     const fragranceNotesElement = document.getElementById("fragrance-notes");

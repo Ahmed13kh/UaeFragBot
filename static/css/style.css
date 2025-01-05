@@ -17,7 +17,7 @@ body {
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
     text-align: center;
     overflow: hidden;
-}
+ }
 
 /* Header Styling */
 h1 {
@@ -297,4 +297,56 @@ select option {
     font-size: 16px;
     color: #333; /* Option text color */
 }
+/* Input Field Styling */
+#user_input {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    border-radius: 25px;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1), inset -2px -2px 5px rgba(255, 255, 255, 0.7);
+    font-size: 1em;
+    font-family: 'Playfair Display', serif; /* Ensure the font matches the rest of the text */
+    color: #333; /* Text color */
+    margin-right: 10px;
+    outline: none;
+    background-color: #fff; /* Ensure a clean background */
+}
+
+#user_input::placeholder {
+    font-family: 'Playfair Display', serif; /* Matches the app font */
+    color: #aaa; /* Placeholder text color */
+    font-size: 1em; /* Ensure consistency with input text */
+}
+/* Suggestions List Styling */
+ul.suggestions-list {
+    position: absolute;
+    background-color: #fff;
+    padding: 0;
+    margin: 0;
+    list-style: none; /* Remove bullets */
+    width: 100%; /* Match input width */
+    text-align: center; /* Center-align text */
+    font-family: 'Playfair Display', serif;
+    font-size: 16px; /* Match the size */
+    color: #333; /* Neutral text color */
+    z-index: 1000; /* Ensure it appears above other elements */
+    border-top: 1px dotted #ccc; /* Add the dotted separator */
+    display: none; /* Hidden by default */
+}
+
+/* Individual Suggestion Items */
+ul.suggestions-list li {
+    padding: 10px 0; /* Add space between suggestions */
+    border-bottom: 1px solid #ddd; /* Add light horizontal line between items */
+    cursor: pointer; /* Pointer cursor for interactivity */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth hover effect */
+}
+
+/* Hover Effect */
+ul.suggestions-list li:hover {
+    background-color: #f9f9f9; /* Light background on hover */
+    color: #007BFF; /* Blue color for hover text */
+}
+
+
 

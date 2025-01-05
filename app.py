@@ -12,9 +12,15 @@ openai.api_key = "sk-proj-U0O8UClnLe4y6w9ZP6Si15FJE8My_OUxiXXdCzgTDyHqv-Wgwo0yJj
 with open("perfume_data.json", "r") as file:
     perfume_data = json.load(file)
 
-# Normalize attributes for consistent matching
+
 def normalize_attribute(attribute):
-    return attribute.lower().strip() if isinstance(attribute, str) else attribute
+    if isinstance(attribute, str):
+        attribute = attribute.lower()  # Convert to lowercase
+        attribute = re.sub(r'[-_]', ' ', attribute)  # Replace hyphens and underscores with spaces
+        attribute = re.sub(r'[^\w\s]', '', attribute)  # Remove all non-alphanumeric characters except spaces
+        attribute = re.sub(r'\s+', ' ', attribute)  # Collapse multiple spaces into one
+        return attribute.strip()  # Remove leading and trailing spaces
+    return attribute  # Return non-string attributes as-is
 
 # Normalize perfume data
 for perfume in perfume_data:
@@ -23,13 +29,12 @@ for perfume in perfume_data:
     perfume['longevity'] = normalize_attribute(perfume.get('longevity', 'unknown'))
     perfume['sillage'] = normalize_attribute(perfume.get('sillage', 'unknown'))
     perfume['pricevalue'] = normalize_attribute(perfume.get('pricevalue', 'unknown'))
-    perfume['description'] = perfume.get('description', '').lower()
-    perfume['rating'] = perfume.get('rating', 0)
+    perfume['description'] = normalize_attribute(perfume.get('description', ''))
+    perfume['rating'] = perfume.get('rating', 0)  # Keep numeric values as-is
     perfume['gender'] = normalize_attribute(perfume.get('gender', 'unknown'))
     perfume['season'] = normalize_attribute(perfume.get('season', 'unknown'))
 
-
-# Updated function for handling designer names dynamically
+# Extract preferences with flexible matching
 def extract_preferences(user_input):
     preferences = {}
 
@@ -58,7 +63,6 @@ def extract_preferences(user_input):
         "gender": {perfume['gender'] for perfume in perfume_data},
         "designer": {perfume['designer'] for perfume in perfume_data},
         "season": {perfume['season'] for perfume in perfume_data}
-
     }
 
     for attr, values in attributes.items():
@@ -67,23 +71,28 @@ def extract_preferences(user_input):
                 preferences[attr] = value
                 break
 
-    # Match rating-related intent
+    # Match rating-related intent with flexible synonyms
     rating_synonyms = {"highly rated", "top rated", "best rated", "best", "good rating", "high rating"}
-    if any(synonym in user_input for synonym in rating_synonyms):
+    # Normalize rating synonyms for flexibility
+    normalized_synonyms = {normalize_attribute(synonym) for synonym in rating_synonyms}
+
+    # Check for matches in user input
+    if any(synonym in user_input for synonym in normalized_synonyms):
         preferences["rating"] = 4.0  # Threshold for "highly rated"
 
     return preferences
 
 
 def find_perfume_by_name(user_input):
-    cleaned_input = normalize_attribute(re.sub(r"[^\w\s']", "", user_input))
+    # Allow alphanumeric characters, spaces, and specific punctuations (e.g., | and numbers)
+    cleaned_input = normalize_attribute(re.sub(r"[^\w\s|]", "", user_input))
 
     for perfume in perfume_data:
         perfume_name = normalize_attribute(perfume['name'])
         designer_name = normalize_attribute(perfume['designer'])
 
-        # Case 1: Match exact name and designer without relying on "by"
-        if cleaned_input in f"{perfume_name} {designer_name}" or cleaned_input in f"{designer_name} {perfume_name}":
+        # Case 1: Match exact name and designer
+        if cleaned_input == f"{perfume_name} {designer_name}" or cleaned_input == f"{designer_name} {perfume_name}":
             return format_perfume_response(perfume)
 
         # Case 2: Match exact name only
@@ -213,3 +222,5 @@ def fallback_general_response(user_input):
         return response['choices'][0]['message']['content'].strip()
     except Exception as e:
         return "I'm sorry, but I couldn't process your request right now. Please try again later."
+if __name__ == '__main__':
+    app.run(debug=True)
