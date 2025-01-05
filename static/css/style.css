@@ -317,36 +317,41 @@ select option {
     color: #aaa; /* Placeholder text color */
     font-size: 1em; /* Ensure consistency with input text */
 }
-/* Suggestions List Styling */
-ul.suggestions-list {
-    position: absolute;
-    background-color: #fff;
-    padding: 0;
-    margin: 0;
-    list-style: none; /* Remove bullets */
-    width: 100%; /* Match input width */
-    text-align: center; /* Center-align text */
-    font-family: 'Playfair Display', serif;
-    font-size: 16px; /* Match the size */
-    color: #333; /* Neutral text color */
-    z-index: 1000; /* Ensure it appears above other elements */
-    border-top: 1px dotted #ccc; /* Add the dotted separator */
-    display: none; /* Hidden by default */
+/* Suggestions Wrapper Inside Main Container */
+.suggestions-wrapper {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping for suggestions */
+    gap: 10px; /* Space between suggestion fields */
+    margin-top: 20px; /* Space between input and suggestions */
+    justify-content: center; /* Center-align the suggestions */
+    padding: 10px 0; /* Add padding for spacing */
 }
 
-/* Individual Suggestion Items */
-ul.suggestions-list li {
-    padding: 10px 0; /* Add space between suggestions */
-    border-bottom: 1px solid #ddd; /* Add light horizontal line between items */
-    cursor: pointer; /* Pointer cursor for interactivity */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth hover effect */
+/* Individual Suggestion Field */
+.suggestion-field {
+    display: inline-block;
+    padding: 10px 20px;
+    background: linear-gradient(145deg, #ffffff, #f1f1f1); /* Add a soft gradient */
+    border-radius: 25px; /* Smooth edges */
+    font-size: 1em;
+    font-family: 'Playfair Display', serif; /* Match the font style */
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    white-space: nowrap; /* Prevent breaking inside suggestion fields */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1), -2px -2px 5px rgba(255, 255, 255, 0.7); /* Soft shadow */
 }
 
-/* Hover Effect */
-ul.suggestions-list li:hover {
-    background-color: #f9f9f9; /* Light background on hover */
-    color: #007BFF; /* Blue color for hover text */
+/* Hover Effect for Suggestion Field */
+.suggestion-field:hover {
+    background-color: #eaeaea; /* Slightly darker hover effect */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15); /* Elevated shadow on hover */
+    color: #007BFF; /* Highlight text color */
 }
 
-
-
+/* Active Suggestion Field */
+.suggestion-field:active {
+    background-color: #ddd; /* Pressed effect */
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1); /* Inner shadow */
+}

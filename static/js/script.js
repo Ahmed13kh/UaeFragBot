@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("chat-form");
     const chatHistory = document.querySelector(".chat-history");
     const userInput = document.getElementById("user_input");
+    const container = document.querySelector(".container"); // Reference the main container
 
     // Suggestions list data
     const suggestions = [
@@ -13,52 +14,26 @@ document.addEventListener("DOMContentLoaded", function () {
         "Can you explain what sillage means in perfumes?"
     ];
 
-    // Create suggestions container
-    const suggestionsContainer = document.createElement("ul");
-    suggestionsContainer.classList.add("suggestions-list");
+    // Create a wrapper for suggestions (as part of the container)
+    const suggestionsWrapper = document.createElement("div");
+    suggestionsWrapper.classList.add("suggestions-wrapper");
 
     // Populate suggestions
     suggestions.forEach((suggestion) => {
-        const listItem = document.createElement("li");
-        listItem.textContent = suggestion;
+        const suggestionField = document.createElement("div");
+        suggestionField.classList.add("suggestion-field");
+        suggestionField.textContent = suggestion;
 
-       // Populate input field and hide suggestions on click
-        listItem.addEventListener("mousedown", (e) => {
-            e.preventDefault(); // Prevent blur from firing
-            userInput.value = suggestion;
-            suggestionsContainer.style.display = "none"; // Hide the list after selection
+        // Handle click on a suggestion
+        suggestionField.addEventListener("click", () => {
+            userInput.value = suggestion; // Populate input field with suggestion
         });
-        suggestionsContainer.appendChild(listItem);
+
+        suggestionsWrapper.appendChild(suggestionField); // Add suggestion field to wrapper
     });
 
-    // Add the suggestions container to the DOM
-    document.body.appendChild(suggestionsContainer);
-
-    // Adjust suggestions position dynamically
-    const adjustPosition = () => {
-        const rect = userInput.getBoundingClientRect();
-        suggestionsContainer.style.position = "absolute";
-        suggestionsContainer.style.top = `${rect.bottom + window.scrollY}px`; // Below the input
-        suggestionsContainer.style.left = `${rect.left + window.scrollX}px`; // Align with the input
-        suggestionsContainer.style.width = `${rect.width}px`; // Match input width
-    };
-
-    // Show suggestions on click
-    userInput.addEventListener("click", () => {
-        adjustPosition(); // Adjust position dynamically
-        suggestionsContainer.style.display = "block"; // Show suggestions
-    });
-
-    // Hide suggestions on blur (delay for click)
-    userInput.addEventListener("blur", () => {
-        setTimeout(() => {
-            suggestionsContainer.style.display = "none";
-        }, 100);
-    });
-
-    // Recalculate position on window resize or scroll
-    window.addEventListener("resize", adjustPosition);
-    window.addEventListener("scroll", adjustPosition);
+    // Append suggestions wrapper directly to the container
+    container.appendChild(suggestionsWrapper);
 
     // Extract JSON data from script tags
     const perfumeDataElement = document.getElementById("perfume-data");
