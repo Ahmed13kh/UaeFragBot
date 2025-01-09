@@ -99,13 +99,6 @@ def find_perfume_by_name(user_input):
         if cleaned_input == perfume_name:
             return format_perfume_response(perfume)
 
-        # Case 3: Match designer name followed by part of the perfume name
-        if cleaned_input.startswith(designer_name) and perfume_name in cleaned_input:
-            return format_perfume_response(perfume)
-
-        # Case 4: Match perfume name followed by part of the designer name
-        if cleaned_input.startswith(perfume_name) and designer_name in cleaned_input:
-            return format_perfume_response(perfume)
 
     # No matches found
     return None
@@ -164,8 +157,36 @@ def format_perfume_response(perfume):
     }
 
 @app.route('/')
-def home():
+def homepage():
+    # Render the home.html as the starting page
+    return render_template('home.html')
+@app.route('/chatbot')
+def chatbot():
+    # Render the index.html for the chatbot functionality
     return render_template('index.html', perfume_data=perfume_data, fragrance_notes=fragrance_notes)
+
+
+@app.route('/recommend', methods=['GET', 'POST'])
+def recommend():
+    if request.method == 'POST':
+        # Get the selected preferences from the form
+        designer = request.form.get('designer', '').lower()
+        gender = request.form.get('gender', '').lower()
+        season = request.form.get('season', '').lower()
+
+        # Filter perfumes based on the selected options
+        filtered_perfumes = [
+            perfume for perfume in perfume_data
+            if (designer == perfume['designer'].lower() or not designer) and
+               (gender == perfume['gender'].lower() or not gender) and
+               (season == perfume['season'].lower() or not season)
+        ]
+
+        # Pass the filtered results to the template
+        return render_template('recommend.html', perfumes=filtered_perfumes)
+
+    # For GET request, just load the form
+    return render_template('recommend.html', perfumes=None)
 
 
 @app.route('/chat', methods=['POST'])

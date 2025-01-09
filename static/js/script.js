@@ -41,13 +41,44 @@ document.addEventListener("DOMContentLoaded", function () {
     const perfumeData = JSON.parse(perfumeDataElement.textContent);
     const fragranceNotes = JSON.parse(fragranceNotesElement.textContent);
 
+    // Sort perfumes alphabetically by default
+    perfumeData.sort((a, b) => a.name.localeCompare(b.name));
+
     // Populate perfume names dropdown
     const perfumeNamesDropdown = document.getElementById("perfume-names");
-    perfumeData.forEach(perfume => {
+
+// Function to populate the dropdown
+const populateDropdown = (filteredPerfumes) => {
+    perfumeNamesDropdown.innerHTML = ""; // Clear existing options
+
+    // Add the default option
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = "--Select a perfume--";
+    defaultOption.disabled = true; // Make it unselectable
+    defaultOption.selected = true; // Make it the default selected option
+    perfumeNamesDropdown.appendChild(defaultOption);
+
+    // Add filtered perfumes
+    filteredPerfumes.forEach(perfume => {
         const option = document.createElement("option");
         option.value = perfume.name;
         option.textContent = perfume.name.charAt(0).toUpperCase() + perfume.name.slice(1);
         perfumeNamesDropdown.appendChild(option);
+    });
+};
+
+// Initially populate the dropdown
+populateDropdown(perfumeData);
+
+
+    // Add an event listener for filtering dropdown options based on input
+    userInput.addEventListener("input", () => {
+        const inputValue = userInput.value.toLowerCase();
+        const filteredPerfumes = perfumeData.filter(perfume =>
+            perfume.name.toLowerCase().includes(inputValue)
+        );
+        populateDropdown(filteredPerfumes);
     });
 
     // Populate designers and notes
