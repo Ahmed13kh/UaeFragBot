@@ -168,25 +168,32 @@ def chatbot():
 
 @app.route('/recommend', methods=['GET', 'POST'])
 def recommend():
+    designers = sorted(set([perfume['designer'].title() for perfume in perfume_data]))
+  # Sorted designers list
     if request.method == 'POST':
         # Get the selected preferences from the form
-        designer = request.form.get('designer', '').lower()
-        gender = request.form.get('gender', '').lower()
-        season = request.form.get('season', '').lower()
+        selected_designer = request.form.get('designer')
+        selected_gender = request.form.get('gender')
+        selected_season = request.form.get('season')
 
-        # Filter perfumes based on the selected options
+        # Filter perfumes based on the selected preferences
         filtered_perfumes = [
             perfume for perfume in perfume_data
-            if (designer == perfume['designer'].lower() or not designer) and
-               (gender == perfume['gender'].lower() or not gender) and
-               (season == perfume['season'].lower() or not season)
+            if (selected_designer.lower() in perfume['designer'].lower() if selected_designer else True) and
+               (selected_gender.lower() in perfume['gender'].lower() if selected_gender else True) and
+               (selected_season.lower() in perfume['season'].lower() if selected_season else True)
         ]
 
-        # Pass the filtered results to the template
-        return render_template('recommend.html', perfumes=filtered_perfumes)
+        # Format the filtered perfumes for display
+        formatted_perfumes = [format_perfume_response(perfume) for perfume in filtered_perfumes]
 
-    # For GET request, just load the form
-    return render_template('recommend.html', perfumes=None)
+        # Set the no_recommendations flag if no matches
+        no_recommendations = len(formatted_perfumes) == 0
+
+        return render_template('recommend.html', perfumes=formatted_perfumes, designers= designers,
+                               no_recommendations=no_recommendations)
+    else:
+        return render_template('recommend.html', perfumes=[], designers= designers, no_recommendations=False)
 
 
 @app.route('/chat', methods=['POST'])
