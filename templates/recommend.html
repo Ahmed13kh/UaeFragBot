@@ -51,7 +51,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 600px; /* Reduced container size */
             margin: 120px auto 40px; /* Adjust for the fixed header bar */
             padding: 20px;
             background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
@@ -61,21 +61,27 @@
         }
 
         h1 {
-            font-size: 2.5em;
+            font-size: 2em;
             color: #4a4a4a;
             margin-bottom: 20px;
         }
 
         form {
+            display: grid; /* Organized layout */
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            justify-items: stretch;
+        }
+
+        form div {
             display: flex;
             flex-direction: column;
-            gap: 20px;
         }
 
         label {
             font-size: 1.2em;
             color: #4a4a4a;
-            text-align: left;
+            margin-bottom: 5px;
         }
 
         select {
@@ -106,11 +112,27 @@
             cursor: pointer;
             box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease-in-out;
+            grid-column: span 2; /* Span button across both columns */
         }
 
         button:hover {
             background: #357ab7;
             box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .clear-btn {
+            background-color: #ffdddd; /* Light red background */
+            color: #d33; /* Dark red text */
+            margin-top: 10px;
+            font-size: 0.9em;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .clear-btn:hover {
+            background-color: #ffcccc; /* Slightly darker red on hover */
         }
 
         .cards-container {
@@ -128,6 +150,16 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 250px;
             text-align: left;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         .perfume-card img {
@@ -174,7 +206,7 @@
 
     <div class="container">
         <h1>Find Your Perfect Perfume</h1>
-        <form action="/recommend" method="POST">
+        <form id="recommend-form" action="/recommend" method="POST">
             <div>
                 <label for="designers">Select Designer:</label>
                 <select id="designers" name="designer" required>
@@ -186,7 +218,7 @@
             </div>
             <div>
                 <label for="gender">Select Gender:</label>
-                <select id="gender" name="gender" required>
+                <select id="gender" name="gender">
                     <option value="">-- Select Gender --</option>
                     <option value="for men">For Men</option>
                     <option value="for women">For Women</option>
@@ -196,7 +228,7 @@
 
             <div>
                 <label for="season">Select Season:</label>
-                <select id="season" name="season" required>
+                <select id="season" name="season">
                     <option value="">-- Select Season --</option>
                     <option value="winter">Winter</option>
                     <option value="summer">Summer</option>
@@ -206,25 +238,52 @@
 
             <button type="submit">Find Perfume</button>
         </form>
+        <button class="clear-btn" id="clear-response">Clear Response</button>
+
+        <!-- Typing Indicator -->
+        <div id="loading" class="typing-indicator" style="display: none;">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
 
         <!-- Display Recommended Perfumes -->
-    {% if perfumes %}
-    <div class="cards-container">
-        {% for perfume in perfumes %}
-        <div class="perfume-card">
-            <img src="{{ perfume.image }}" alt="{{ perfume.name }}">
-            <h3>{{ perfume.name }}</h3>
-            <p><strong>Designer:</strong> {{ perfume.designer }}</p>
-            <p><strong>Gender:</strong> {{ perfume.gender }}</p>
-            <p><strong>Season:</strong> {{ perfume.season }}</p>
-            <p><strong>Description:</strong> {{ perfume.description }}</p>
-            <a href="{{ perfume.link }}" target="_blank">View More</a>
+        {% if perfumes %}
+        <div class="cards-container">
+            {% for perfume in perfumes %}
+            <div class="perfume-card">
+                <img src="{{ perfume.image }}" alt="{{ perfume.name }}">
+                <h3>{{ perfume.name }}</h3>
+                <p><strong>Designer:</strong> {{ perfume.designer }}</p>
+                <p><strong>Gender:</strong> {{ perfume.gender }}</p>
+                <p><strong>Season:</strong> {{ perfume.season }}</p>
+                <p><strong>Description:</strong> {{ perfume.description }}</p>
+                <a href="{{ perfume.link }}" target="_blank">View More</a>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+        {% elif no_recommendations %}
+        <p style="margin-top: 30px; color: #666;">No perfumes found. Please adjust your preferences and try again.</p>
+        {% endif %}
     </div>
-    {% elif no_recommendations %}
-    <p style="margin-top: 30px; color: #666;">No perfumes found. Please adjust your preferences and try again.</p>
-    {% endif %}
-</div>
+
+    <script>
+        document.getElementById("recommend-form").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const loadingIndicator = document.getElementById("loading");
+            loadingIndicator.style.display = "flex";
+
+            setTimeout(() => {
+                this.submit();
+            }, 1500);
+        });
+
+        document.getElementById("clear-response").addEventListener("click", function () {
+            const cardsContainer = document.querySelector(".cards-container");
+            const noRecommendations = document.querySelector("p[style*='margin-top']");
+            if (cardsContainer) cardsContainer.innerHTML = ""; // Clear response
+            if (noRecommendations) noRecommendations.style.display = "none";
+        });
+    </script>
 </body>
 </html>
