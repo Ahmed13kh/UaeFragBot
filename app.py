@@ -156,10 +156,19 @@ def format_perfume_response(perfume):
         "image": perfume.get('image', '')
     }
 
+
+@app.route('/about')
+def about():
+    return render_template('about.html')  # Create an 'about.html' template
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')  # Create a 'contact.html' template
+
 @app.route('/')
 def homepage():
-    # Render the home.html as the starting page
     return render_template('home.html')
+
 @app.route('/chatbot')
 def chatbot():
     # Render the index.html for the chatbot functionality
@@ -251,4 +260,5 @@ def fallback_general_response(user_input):
     except Exception as e:
         return "I'm sorry, but I couldn't process your request right now. Please try again later."
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
+

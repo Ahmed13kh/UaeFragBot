@@ -19,9 +19,9 @@
             font-family: 'Playfair Display', serif;
             margin: 0;
             padding: 0;
-            background: url("{{ url_for('static', filename='images/image copy.png') }}") no-repeat center center fixed;
-            background-size: cover;
             color: #333;
+            background: url("{{ url_for('static', filename='images/spices-citruses-black-background.jpg') }}") no-repeat center center fixed;
+            background-size: cover;
         }
 
         /* Header Bar */
@@ -32,6 +32,7 @@
             background-color: rgba(245, 245, 245, 0.9); /* Dark white with slight transparency */
             color: #000; /* Black text color for home button */
             display: flex;
+            justify-content: space-between; /* Space between the title and links */
             align-items: center;
             padding: 10px 20px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for the bar */
@@ -40,14 +41,23 @@
 
         .header-bar a {
             text-decoration: none;
-            color: #000; /* Black text for home button */
-            font-size: 1.5em;
+            color: #000; /* Black text for links */
+            font-size: 1em;
             font-weight: bold;
             transition: color 0.3s ease;
+            margin-right: 15px; /* Space between links */
         }
 
         .header-bar a:hover {
-            color: #000; /* No hover color change */
+            color: #888; /* Blue on hover */
+        }
+
+        .header-links {
+           display: flex;
+           align-items: center; /* Align links vertically */
+           gap: 10px; /* Adjust spacing between links */
+           margin-left: auto; /* Push links closer to the center */
+           padding-right: 20px; /* Slight adjustment for alignment */
         }
 
         .container {
@@ -101,38 +111,43 @@
             box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.2), inset -3px -3px 8px rgba(255, 255, 255, 0.8);
         }
 
-        button {
-            padding: 10px 20px;
-            background: #4a90e2;
-            border: none;
-            border-radius: 25px;
-            color: white;
-            font-size: 1em;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease-in-out;
-            grid-column: span 2; /* Span button across both columns */
+        .button-container {
+            display: flex;
+            flex-direction: row; /* Place buttons side by side */
+            justify-content: flex-end; /* Align buttons to the right */
+            margin-top: 10px; /* Add space above the buttons */
+            gap: 10px; /* Space between buttons */
         }
 
-        button:hover {
-            background: #357ab7;
+        .find-btn {
+            background-color: #4a90e2;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 0.9em; /* Match size with the Clear Response button */
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .find-btn:hover {
+            background-color: #357ab7;
             box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
         }
 
         .clear-btn {
-            background-color: #ffdddd; /* Light red background */
-            color: #d33; /* Dark red text */
-            margin-top: 10px;
-            font-size: 0.9em;
+            background-color: #ffdddd;
+            color: #d33;
+            padding: 10px 20px;
             border: none;
             border-radius: 25px;
+            font-size: 0.9em;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
 
         .clear-btn:hover {
-            background-color: #ffcccc; /* Slightly darker red on hover */
+            background-color: #ffcccc;
         }
 
         .cards-container {
@@ -196,12 +211,17 @@
         .perfume-card a:hover {
             background: #357ab7;
         }
+
     </style>
 </head>
 <body>
     <!-- Header Bar -->
     <header class="header-bar">
         <a href="{{ url_for('homepage') }}">UAE-FragBot</a>
+        <nav class="header-links">
+            <a href="{{ url_for('about') }}">About UAE-FragBot</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+        </nav>
     </header>
 
     <div class="container">
@@ -220,10 +240,10 @@
                 <label for="gender">Select Gender:</label>
                 <select id="gender" name="gender">
                     <option value="">-- Select Gender --</option>
+                    <option value="unisex">Unisex</option>
                     <option value="for men">For Men</option>
                     <option value="for women">For Women</option>
-                    <option value="unisex">Unisex</option>
-                </select>
+                 </select>
             </div>
 
             <div>
@@ -235,10 +255,11 @@
                     <option value="all seasons">All Seasons</option>
                 </select>
             </div>
-
-            <button type="submit">Find Perfume</button>
-        </form>
-        <button class="clear-btn" id="clear-response">Clear Response</button>
+            <div class="button-container">
+                <button type="submit" class="find-btn">Find Perfume</button>
+                <button class="clear-btn" id="clear-response">Clear Response</button>
+            </div>
+         </form>
 
         <!-- Typing Indicator -->
         <div id="loading" class="typing-indicator" style="display: none;">
@@ -278,7 +299,8 @@
             }, 1500);
         });
 
-        document.getElementById("clear-response").addEventListener("click", function () {
+        document.getElementById("clear-response").addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent default form behavior
             const cardsContainer = document.querySelector(".cards-container");
             const noRecommendations = document.querySelector("p[style*='margin-top']");
             if (cardsContainer) cardsContainer.innerHTML = ""; // Clear response

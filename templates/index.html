@@ -18,7 +18,7 @@
             margin: 0;
             padding: 0;
             color: #333;
-            background: url("{{ url_for('static', filename='images/image copy.png') }}") no-repeat center center fixed;
+            background: url("{{ url_for('static', filename='images/spices-citruses-black-background.jpg') }}") no-repeat center center fixed;
             background-size: cover;
         }
 
@@ -30,6 +30,7 @@
             background-color: rgba(245, 245, 245, 0.9); /* Dark white with slight transparency */
             color: #000; /* Black text color for home button */
             display: flex;
+            justify-content: space-between; /* Space between the title and links */
             align-items: center;
             padding: 10px 20px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for the bar */
@@ -38,14 +39,23 @@
 
         .header-bar a {
             text-decoration: none;
-            color: #000; /* Black text for home button */
-            font-size: 1.5em;
+            color: #000; /* Black text for links */
+            font-size: 1em;
             font-weight: bold;
             transition: color 0.3s ease;
+            margin-right: 15px; /* Space between links */
         }
 
         .header-bar a:hover {
-            color: #000; /* No hover color change */
+            color: #888; /* Blue on hover */
+        }
+
+        .header-links {
+           display: flex;
+           align-items: center; /* Align links vertically */
+           gap: 10px; /* Adjust spacing between links */
+           margin-left: auto; /* Push links closer to the center */
+           padding-right: 20px; /* Slight adjustment for alignment */
         }
 
         .container {
@@ -116,6 +126,10 @@
     <!-- Header Bar -->
     <header class="header-bar">
         <a href="{{ url_for('homepage') }}">UAE-FragBot</a>
+        <nav class="header-links">
+            <a href="{{ url_for('about') }}">About UAE-FragBot</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+        </nav>
     </header>
 
     <!-- Main Content -->
