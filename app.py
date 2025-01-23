@@ -6,7 +6,7 @@ import re
 from fragrance_notes import fragrance_notes
 
 app = Flask(__name__)
-openai.api_key = "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"
+openai.api_key = "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"
 
 # Load perfume data
 with open("perfume_data.json", "r") as file:
@@ -28,7 +28,6 @@ for perfume in perfume_data:
     perfume['designer'] = normalize_attribute(perfume.get('designer', 'unknown'))
     perfume['longevity'] = normalize_attribute(perfume.get('longevity', 'unknown'))
     perfume['sillage'] = normalize_attribute(perfume.get('sillage', 'unknown'))
-    perfume['pricevalue'] = normalize_attribute(perfume.get('pricevalue', 'unknown'))
     perfume['description'] = normalize_attribute(perfume.get('description', ''))
     perfume['rating'] = perfume.get('rating', 0)  # Keep numeric values as-is
     perfume['gender'] = normalize_attribute(perfume.get('gender', 'unknown'))
@@ -59,7 +58,6 @@ def extract_preferences(user_input):
     attributes = {
         "longevity": {perfume['longevity'] for perfume in perfume_data},
         "sillage": {perfume['sillage'] for perfume in perfume_data},
-        "pricevalue": {perfume['pricevalue'] for perfume in perfume_data},
         "gender": {perfume['gender'] for perfume in perfume_data},
         "designer": {perfume['designer'] for perfume in perfume_data},
         "season": {perfume['season'] for perfume in perfume_data}
