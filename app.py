@@ -155,23 +155,22 @@ def format_perfume_response(perfume):
     }
 
 
-@app.route('/about')
-def about():
-    return render_template('about.html')  # Create an 'about.html' template
-
-@app.route('/contact')
-def contact():
-    return render_template('contact.html')  # Create a 'contact.html' template
-
 @app.route('/')
 def homepage():
     return render_template('home.html')
-
 @app.route('/chatbot')
 def chatbot():
     # Render the index.html for the chatbot functionality
     return render_template('index.html', perfume_data=perfume_data, fragrance_notes=fragrance_notes)
-
+@app.route('/privacy-policy')
+def privacy_policy():
+    return render_template('privacy-policy.html')
+@app.route('/about')
+def about():
+    return render_template('about.html')  # Create an 'about.html' template
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')  # Create a 'contact.html' template
 
 @app.route('/recommend', methods=['GET', 'POST'])
 def recommend():

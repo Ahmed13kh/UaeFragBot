@@ -13,12 +13,24 @@
 
     <style>
         body {
-            font-family: 'Playfair Display', serif;
+            height: 100%;
             margin: 0;
-            padding: 0;
+            font-family: 'Playfair Display', serif;
             color: #333;
-            background: url("{{ url_for('static', filename='images/spices-citruses-black-background.jpg') }}") no-repeat center center fixed;
+            background: url("{{ url_for('static', filename='images/monochrome-beauty-product-skincare.jpg') }}") no-repeat center center fixed;
             background-size: cover;
+        }
+
+        /* Layout wrapper */
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Main content area */
+        .content {
+            flex: 1; /* Fills the available space */
         }
 
         /* Header Bar */
@@ -26,63 +38,63 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background-color: rgba(245, 245, 245, 0.9); /* Dark white with slight transparency */
-            color: #000; /* Black text color for home button */
+            background-color: rgba(245, 245, 245, 0.9);
+            color: #000;
             display: flex;
-            justify-content: space-between; /* Space between the title and links */
+            justify-content: space-between;
             align-items: center;
             padding: 10px 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for the bar */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             z-index: 1000;
         }
 
         .header-bar a {
             text-decoration: none;
-            color: #000; /* Black text for links */
+            color: #000;
             font-size: 1em;
             font-weight: bold;
             transition: color 0.3s ease;
-            margin-right: 15px; /* Space between links */
+            margin-right: 15px;
         }
 
         .header-bar a:hover {
-            color: #888; /* Blue on hover */
+            color: #888;
         }
 
         .header-links {
-           display: flex;
-           align-items: center; /* Align links vertically */
-           gap: 10px; /* Adjust spacing between links */
-           margin-left: auto; /* Push links closer to the center */
-           padding-right: 20px; /* Slight adjustment for alignment */
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: auto;
+            padding-right: 20px;
         }
 
         .main-header {
             text-align: center;
             color: #fff;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-            margin-top: 100px; /* Adjust for the fixed header bar */
+            margin-top: 100px;
             animation: fadeIn 1.5s ease-in-out;
         }
 
         .main-header h1 {
-            font-size: 3em; /* Larger font size for "UAE-FragBot" */
+            font-size: 3em;
             margin-bottom: 10px;
-            color: #e0e0e0; /* Slightly darker white for contrast */
+            color: #e0e0e0;
         }
 
         .main-header h2 {
-            font-size: 1.8em; /* Smaller font size for "Find Your Signature Scent" */
+            font-size: 1.8em;
             margin-top: 5px;
-            color: #ddd; /* Light grey for the subtitle */
-            font-weight: normal; /* Slightly lighter font weight */
+            color: #ddd;
+            font-weight: normal;
         }
 
         .main-header p {
             font-size: 1.2em;
             margin-top: 10px;
-            color: #ddd; /* Light grey for the tagline */
-            font-style: italic; /* Italic styling for the tagline */
+            color: #ddd;
+            font-style: italic;
         }
 
         .options-container {
@@ -113,34 +125,62 @@
 
         .option a {
             text-decoration: none;
-            color: #fff; /* White text for links */
+            color: #fff;
             font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 0.9em;
+            color: #fff;
+            background-color: transparent;
+        }
+
+        footer a {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        footer a:hover {
+            color: #ccc;
         }
     </style>
 </head>
 <body>
-    <!-- Header Bar -->
-    <header class="header-bar">
-        <a href="{{ url_for('homepage') }}">UAE-FragBot</a>
-        <nav class="header-links">
-            <a href="{{ url_for('about') }}">About UAE-FragBot</a>
-            <a href="{{ url_for('contact') }}">Contact</a>
-        </nav>
-    </header>
+    <div class="wrapper">
+        <!-- Header Bar -->
+        <header class="header-bar">
+            <a href="{{ url_for('homepage') }}">UAE-FragBot</a>
+            <nav class="header-links">
+                <a href="{{ url_for('about') }}">About UAE-FragBot</a>
+                <a href="{{ url_for('contact') }}">Contact</a>
+            </nav>
+        </header>
 
-    <!-- Main Content -->
-    <header class="main-header">
-        <h1>UAE-FragBot</h1> <!-- Main Title -->
-        <h2>Find Your Signature Scent</h2> <!-- Subtitle -->
-        <p>Your journey to discovering the perfect fragrance begins here.</p>
-    </header>
-    <div class="options-container">
-        <div class="option">
-            <a href="{{ url_for('chatbot') }}">Chat with FragBot</a>
+        <!-- Main Content -->
+        <div class="content">
+            <header class="main-header">
+                <h1>UAE-FragBot</h1>
+                <h2>Find Your Signature Scent</h2>
+                <p>Your journey to discovering the perfect fragrance begins here.</p>
+            </header>
+            <div class="options-container">
+                <div class="option">
+                    <a href="{{ url_for('chatbot') }}">Chat with FragBot</a>
+                </div>
+                <div class="option">
+                    <a href="{{ url_for('recommend') }}">Use Recommendation Machine</a>
+                </div>
+            </div>
         </div>
-        <div class="option">
-            <a href="{{ url_for('recommend') }}">Use Recommendation Machine</a>
-        </div>
+        <!-- Footer -->
+        <footer>
+            <p>
+               © 2025 UAE-FragBot. All Rights Reserved. <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a>
+            </p>
+        </footer>
     </div>
 </body>
 </html>
