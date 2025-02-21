@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About UAE-FragBot</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        body {
+            font-family: 'Playfair Display', serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background: url("{{ url_for('static', filename='images/monochrome-beauty-product-skincare.jpg') }}") no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Header Bar */
+        .header-bar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(245, 245, 245, 0.9); /* Dark white with slight transparency */
+            color: #000; /* Black text color for home button */
+            display: flex;
+            justify-content: space-between; /* Space between the title and links */
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for the bar */
+            z-index: 1000;
+        }
+
+        .header-bar a {
+            text-decoration: none;
+            color: #000; /* Black text for links */
+            font-size: 1em;
+            font-weight: bold;
+            transition: color 0.3s ease;
+            margin-right: 15px; /* Space between links */
+        }
+
+        .header-bar a:hover {
+            color: #888; /* Blue on hover */
+        }
+
+        .header-links {
+           display: flex;
+           align-items: center; /* Align links vertically */
+           gap: 10px; /* Adjust spacing between links */
+           margin-left: auto; /* Push links closer to the center */
+           padding-right: 20px; /* Slight adjustment for alignment */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 120px auto 40px; /* Adjust for the fixed header bar */
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #4a4a4a;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #4a4a4a;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .icon {
+            font-size: 2em;
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature {
+            background-color: rgba(245, 245, 245, 0.9);
+            padding: 15px 20px;
+            border-radius: 10px;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature i {
+            font-size: 1.5em;
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+
+        .feature h3 {
+            font-size: 1.2em;
+            color: #4a4a4a;
+            margin-bottom: 10px;
+        }
+
+        .feature p {
+            font-size: 1em;
+            color: #666;
+            line-height: 1.4;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 0.9em;
+            color: #fff;
+            background-color: transparent;
+        }
+
+        footer a {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        footer a:hover {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Bar -->
+    <header class="header-bar">
+        <a href="{{ url_for('homepage') }}">UAE-FragBot</a>
+        <nav class="header-links">
+            <a href="{{ url_for('about') }}">About UAE-FragBot</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+        </nav>
+    </header>
+
+    <!-- About Container -->
+    <div class="container">
+        <h1>About UAE-FragBot</h1>
+        <p>UAE-FragBot is a cutting-edge chatbot designed to enhance your fragrance shopping experience. Whether you're a fragrance enthusiast, a beginner, or someone simply looking for the perfect scent, UAE-FragBot is here to assist you every step of the way.</p>
+
+        <div class="section">
+            <h2>Our Vision</h2>
+            <i class="fas fa-eye icon"></i>
+            <p>Our goal is to simplify the process of exploring and choosing perfumes by leveraging technology. UAE-FragBot is committed to helping users discover scents tailored to their unique preferences while offering insights into the rich world of UAE fragrances.</p>
+        </div>
+
+        <div class="section">
+            <h2>Features</h2>
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-magic"></i>
+                    <h3>Personalized Recommendations</h3>
+                    <p>
+                        Ideal for users who may not know how to describe all their preferences. Using only simple inputs like designer, gender, and season, UAE-FragBot provides personalized suggestions to match your needs.
+                    </p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-comments"></i>
+                    <h3>User-Friendly Chatbot</h3>
+                    <p>
+                        A flexible tool for users who want more control. You can describe your ideal fragrances in detail, and UAE-FragBot will suggest perfumes as well as having the chance to ask other general questions other than recommendations.
+                    </p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-info-circle"></i>
+                    <h3>Fragrance Insights</h3>
+                    <p>Learn about individual perfumes, their scent profiles, and reviews to make informed decisions.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Designed for UAE Market</h3>
+                    <p>Explore perfumes and brands popular in the UAE, capturing the region's unique culture and style.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Why UAE-FragBot?</h2>
+            <i class="fas fa-lightbulb icon"></i> <!-- Replaced heart icon with a thinking face (lightbulb) -->
+            <p>Our chatbot is tailored to UAE fragrance enthusiasts, offering a seamless and time-saving experience for discovering your perfect scent. With advanced features and AI-driven insights, UAE-FragBot ensures you enjoy an effortless journey to find the perfect fragrance.</p>
+        </div>
+    </div>
+</body>
+</html>
