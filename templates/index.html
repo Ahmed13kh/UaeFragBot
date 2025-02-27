@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UAE Perfume Chatbot</title>
+
+    <!-- Add Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Add FontAwesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- Add CSS Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        body {
+            font-family: 'Playfair Display', serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background: url("{{ url_for('static', filename='images/monochrome-beauty-product-skincare.jpg') }}") no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Header Bar */
+        .header-bar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(245, 245, 245, 0.9); /* Dark white with slight transparency */
+            color: #000; /* Black text color for home button */
+            display: flex;
+            justify-content: space-between; /* Space between the title and links */
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for the bar */
+            z-index: 1000;
+        }
+
+        .header-bar a {
+            text-decoration: none;
+            color: #000; /* Black text for links */
+            font-size: 1em;
+            font-weight: bold;
+            transition: color 0.3s ease;
+            margin-right: 15px; /* Space between links */
+        }
+
+        .header-bar a:hover {
+            color: #888; /* Blue on hover */
+        }
+
+        .header-links {
+           display: flex;
+           align-items: center; /* Align links vertically */
+           gap: 10px; /* Adjust spacing between links */
+           margin-left: auto; /* Push links closer to the center */
+           padding-right: 20px; /* Slight adjustment for alignment */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 120px auto; /* Adjust for the fixed header bar */
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #chatbot-description {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        form {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 25px;
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1), inset -2px -2px 5px rgba(255, 255, 255, 0.7);
+            font-size: 1em;
+            margin-right: 10px;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.2), inset -3px -3px 8px rgba(255, 255, 255, 0.8);
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #4a90e2;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background: #357ab7;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Bar -->
+    <header class="header-bar">
+        <a href="{{ url_for('homepage') }}">UAE-FragBot</a>
+        <nav class="header-links">
+            <a href="{{ url_for('about') }}">About UAE-FragBot</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Header -->
+        <h1 id="chatbot-header">UAE-FragBot</h1>
+        <p id="chatbot-description">Ask me anything about UAE perfumes!</p>
+
+        <!-- Guide Section -->
+        <div class="guide-container">
+            <h2>Guide to Describing Your Preferences</h2>
+
+            <!-- Product-Specific Queries -->
+            <div class="guide-section">
+                <h3>Product-Specific Queries</h3>
+                <p>Use phrases like:</p>
+                <ul>
+                    <li><code>Give me details about</code> <strong>[Product Name]</strong></li>
+                    <li><code>Describe</code> <strong>[Product Name]</strong></li>
+                </ul>
+                <label for="perfume-names">Choose a Perfume:</label>
+                <select id="perfume-names">
+                    <option value="">-- Select a Perfume --</option>
+                </select>
+            </div>
+
+            <!-- Recommendation Queries -->
+            <div class="guide-section">
+                <h3>Recommendation Queries</h3>
+                <p>Use these preferences to describe your ideal perfume:</p>
+                <ul>
+                    <li><strong>Designers:</strong> <span id="designers"></span>.</li>
+                    <li><strong>Gender:</strong> For men, For women, Unisex.</li>
+                    <li><strong>Season:</strong> Winter, Summer, All seasons.</li>
+                    <li><strong>Notes:</strong> <span id="notes"></span>.</li>
+                    <li><strong>Longevity:</strong> Moderate, Long lasting, Eternal.</li>
+                    <li><strong>Sillage:</strong> Strong, Enormous.</li>
+                    <li><strong>Rating:</strong> Top rated, High rating.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Chat History -->
+        <div class="chat-history"></div>
+
+        <!-- Input Form -->
+        <form id="chat-form">
+            <input type="text" id="user_input" name="user_input" placeholder="Message FragBot..." required>
+            <button type="submit"><i class="fas fa-paper-plane"></i> Send</button>
+        </form>
+
+    </div>
+
+    <!-- JSON Data for Perfume and Fragrance Notes -->
+    <script id="perfume-data" type="application/json">
+        {{ perfume_data|tojson }}
+    </script>
+    <script id="fragrance-notes" type="application/json">
+        {{ fragrance_notes|tojson }}
+    </script>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
