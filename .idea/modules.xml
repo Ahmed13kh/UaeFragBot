@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/UaeFragBot.iml" filepath="$PROJECT_DIR$/.idea/UaeFragBot.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/ake179.iml" filepath="$PROJECT_DIR$/.idea/ake179.iml" />
+>>>>>>> d31ba4e62092807203a57694d44ce1727f92db67
     </modules>
   </component>
 </project>
