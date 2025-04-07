@@ -5,7 +5,6 @@ import random
 import re
 from fragrance_notes import fragrance_notes
 
-# Initialize Flask app and OpenAI key
 app = Flask(__name__)
 openai.api_key = "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"
 
@@ -205,7 +204,7 @@ def chat():
             perfume_details = find_perfume_by_name(perfume_name)
             if perfume_details:
                 return jsonify({"structured": perfume_details})
-            
+
         # Extract and match user preferences
         criteria = extract_preferences(user_input)
         if criteria:
