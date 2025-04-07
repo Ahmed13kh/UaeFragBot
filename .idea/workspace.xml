@@ -4,7 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e65758b7-5906-44ae-ad23-3dce3f486224" name="Changes" comment="commit" />
+    <list default="true" id="e65758b7-5906-44ae-ad23-3dce3f486224" name="Changes" comment="commit">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_check.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_upload.py" beforeDir="false" afterPath="$PROJECT_DIR$/file_upload.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fine_tune.py" beforeDir="false" afterPath="$PROJECT_DIR$/fine_tune.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fine_tune_check.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/perfume_data.json" beforeDir="false" afterPath="$PROJECT_DIR$/perfume_data.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/about.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/contact.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/contact.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/privacy-policy.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/privacy-policy.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/recommend.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/recommend.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -94,7 +112,7 @@
       <recent name="$PROJECT_DIR$/static/images" />
     </key>
   </component>
-  <component name="RunManager" selected="Flask server.UaeFragBot">
+  <component name="RunManager" selected="Flask server.Flask (app.py)">
     <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="UaeFragBot" />
       <option name="ENV_FILES" value="" />
@@ -214,8 +232,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.app" />
         <item itemvalue="Flask server.Flask (app.py)" />
+        <item itemvalue="Python.app" />
         <item itemvalue="Flask server.Flask (ake179/app.py)" />
         <item itemvalue="Python.file_check" />
         <item itemvalue="Python.price_scarping" />
@@ -269,6 +287,18 @@
       <workItem from="1740654593505" duration="41000" />
       <workItem from="1740654914431" duration="114000" />
       <workItem from="1740656048374" duration="757000" />
+      <workItem from="1740660225212" duration="3428000" />
+      <workItem from="1740677571878" duration="63000" />
+      <workItem from="1740677640806" duration="47000" />
+      <workItem from="1740677690363" duration="28000" />
+      <workItem from="1740677721550" duration="26000" />
+      <workItem from="1740679507522" duration="458000" />
+      <workItem from="1741369659495" duration="616000" />
+      <workItem from="1741562279299" duration="328000" />
+      <workItem from="1741615577211" duration="21067000" />
+      <workItem from="1742132641607" duration="21879000" />
+      <workItem from="1743078267196" duration="235000" />
+      <workItem from="1743882507815" duration="23592000" />
     </task>
     <task id="LOCAL-00001" summary="commiting">
       <option name="closed" value="true" />
@@ -590,9 +620,9 @@
     <SUITE FILE_PATH="coverage/UaeFragBot$file_check.coverage" NAME="file_check Coverage Results" MODIFIED="1737649701704" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/UaeFragBot$results_file.coverage" NAME="results_file Coverage Results" MODIFIED="1732971574544" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/UaeFragBot$fine_tune_check.coverage" NAME="fine_tune_check Coverage Results" MODIFIED="1735481581748" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/UaeFragBot$Flask__app_py_.coverage" NAME="Flask (app.py) Coverage Results" MODIFIED="1740599878123" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/UaeFragBot$Flask__app_py_.coverage" NAME="Flask (app.py) Coverage Results" MODIFIED="1744043245195" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/UaeFragBot$file_upload.coverage" NAME="file_upload Coverage Results" MODIFIED="1735481015203" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/UaeFragBot$UaeFragBot.coverage" NAME="UaeFragBot Coverage Results" MODIFIED="1740656666000" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/UaeFragBot$UaeFragBot.coverage" NAME="UaeFragBot Coverage Results" MODIFIED="1743078271296" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/UaeFragBot$load_dataset.coverage" NAME="load_dataset Coverage Results" MODIFIED="1733759275113" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/UaeFragBot$price_scarping.coverage" NAME="price_scarping Coverage Results" MODIFIED="1736003612627" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>

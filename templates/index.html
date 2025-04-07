@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UAE Perfume Chatbot</title>
 
-    <!-- Add Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Add FontAwesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <!-- Add CSS Stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <style>
@@ -22,47 +19,46 @@
             background-size: cover;
         }
 
-        /* Header Bar */
         .header-bar {
             position: fixed;
             top: 0;
             width: 100%;
-            background-color: rgba(245, 245, 245, 0.9); /* Dark white with slight transparency */
-            color: #000; /* Black text color for home button */
+            background-color: rgba(245, 245, 245, 0.9);
+            color: #000;
             display: flex;
-            justify-content: space-between; /* Space between the title and links */
+            justify-content: space-between;
             align-items: center;
             padding: 10px 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for the bar */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             z-index: 1000;
         }
 
         .header-bar a {
             text-decoration: none;
-            color: #000; /* Black text for links */
+            color: #000;
             font-size: 1em;
             font-weight: bold;
             transition: color 0.3s ease;
-            margin-right: 15px; /* Space between links */
+            margin-right: 15px;
         }
 
         .header-bar a:hover {
-            color: #888; /* Blue on hover */
+            color: #888;
         }
 
         .header-links {
            display: flex;
-           align-items: center; /* Align links vertically */
-           gap: 10px; /* Adjust spacing between links */
-           margin-left: auto; /* Push links closer to the center */
-           padding-right: 20px; /* Slight adjustment for alignment */
+           align-items: center;
+           gap: 10px;
+           margin-left: auto;
+           padding-right: 20px;
         }
 
         .container {
             max-width: 800px;
-            margin: 120px auto; /* Adjust for the fixed header bar */
+            margin: 120px auto;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+            background-color: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             overflow: hidden;
@@ -123,7 +119,6 @@
     </style>
 </head>
 <body>
-    <!-- Header Bar -->
     <header class="header-bar">
         <a href="{{ url_for('homepage') }}">UAE-FragBot</a>
         <nav class="header-links">
@@ -132,31 +127,21 @@
         </nav>
     </header>
 
-    <!-- Main Content -->
     <div class="container">
-        <!-- Header -->
         <h1 id="chatbot-header">UAE-FragBot</h1>
         <p id="chatbot-description">Ask me anything about UAE perfumes!</p>
 
-        <!-- Guide Section -->
         <div class="guide-container">
             <h2>Guide to Describing Your Preferences</h2>
 
-            <!-- Product-Specific Queries -->
             <div class="guide-section">
                 <h3>Product-Specific Queries</h3>
-                <p>Use phrases like:</p>
-                <ul>
-                    <li><code>Give me details about</code> <strong>[Product Name]</strong></li>
-                    <li><code>Describe</code> <strong>[Product Name]</strong></li>
-                </ul>
-                <label for="perfume-names">Choose a Perfume:</label>
+                <label for="perfume-names">Choose a Perfume to get its details:</label>
                 <select id="perfume-names">
                     <option value="">-- Select a Perfume --</option>
                 </select>
             </div>
 
-            <!-- Recommendation Queries -->
             <div class="guide-section">
                 <h3>Recommendation Queries</h3>
                 <p>Use these preferences to describe your ideal perfume:</p>
@@ -172,18 +157,14 @@
             </div>
         </div>
 
-        <!-- Chat History -->
         <div class="chat-history"></div>
 
-        <!-- Input Form -->
         <form id="chat-form">
             <input type="text" id="user_input" name="user_input" placeholder="Message FragBot..." required>
             <button type="submit"><i class="fas fa-paper-plane"></i> Send</button>
         </form>
-
     </div>
 
-    <!-- JSON Data for Perfume and Fragrance Notes -->
     <script id="perfume-data" type="application/json">
         {{ perfume_data|tojson }}
     </script>
@@ -192,6 +173,5 @@
     </script>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-
 </body>
 </html>

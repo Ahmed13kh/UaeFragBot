@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - UAE Perfume App</title>
 
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-
-    <!-- Add other CSS -->
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 
     <style>
@@ -21,19 +18,16 @@
             background-size: cover;
         }
 
-        /* Layout wrapper */
         .wrapper {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
-        /* Main content area */
         .content {
-            flex: 1; /* Fills the available space */
+            flex: 1;
         }
 
-        /* Header Bar */
         .header-bar {
             position: fixed;
             top: 0;
@@ -129,7 +123,6 @@
             font-weight: bold;
         }
 
-        /* Footer */
         footer {
             text-align: center;
             padding: 10px;
@@ -150,7 +143,6 @@
 </head>
 <body>
     <div class="wrapper">
-        <!-- Header Bar -->
         <header class="header-bar">
             <a href="{{ url_for('homepage') }}">UAE-FragBot</a>
             <nav class="header-links">
@@ -159,7 +151,6 @@
             </nav>
         </header>
 
-        <!-- Main Content -->
         <div class="content">
             <header class="main-header">
                 <h1>UAE-FragBot</h1>
@@ -175,7 +166,6 @@
                 </div>
             </div>
         </div>
-        <!-- Footer -->
         <footer>
             <p>
                © 2025 UAE-FragBot. All Rights Reserved. <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a>

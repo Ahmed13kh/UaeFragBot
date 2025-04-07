@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About UAE-FragBot</title>
 
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <!-- CSS Stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <style>
@@ -22,47 +19,46 @@
             background-size: cover;
         }
 
-        /* Header Bar */
         .header-bar {
             position: fixed;
             top: 0;
             width: 100%;
-            background-color: rgba(245, 245, 245, 0.9); /* Dark white with slight transparency */
-            color: #000; /* Black text color for home button */
+            background-color: rgba(245, 245, 245, 0.9);
+            color: #000;
             display: flex;
-            justify-content: space-between; /* Space between the title and links */
+            justify-content: space-between;
             align-items: center;
             padding: 10px 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for the bar */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             z-index: 1000;
         }
 
         .header-bar a {
             text-decoration: none;
-            color: #000; /* Black text for links */
+            color: #000;
             font-size: 1em;
             font-weight: bold;
             transition: color 0.3s ease;
-            margin-right: 15px; /* Space between links */
+            margin-right: 15px;
         }
 
         .header-bar a:hover {
-            color: #888; /* Blue on hover */
+            color: #888;
         }
 
         .header-links {
            display: flex;
-           align-items: center; /* Align links vertically */
-           gap: 10px; /* Adjust spacing between links */
-           margin-left: auto; /* Push links closer to the center */
-           padding-right: 20px; /* Slight adjustment for alignment */
+           align-items: center;
+           gap: 10px;
+           margin-left: auto;
+           padding-right: 20px;
         }
 
         .container {
             max-width: 800px;
-            margin: 120px auto 40px; /* Adjust for the fixed header bar */
+            margin: 120px auto 40px;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+            background-color: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             text-align: center;
@@ -131,6 +127,7 @@
             color: #666;
             line-height: 1.4;
         }
+
         footer {
             text-align: center;
             padding: 10px;
@@ -150,7 +147,6 @@
     </style>
 </head>
 <body>
-    <!-- Header Bar -->
     <header class="header-bar">
         <a href="{{ url_for('homepage') }}">UAE-FragBot</a>
         <nav class="header-links">
@@ -159,7 +155,6 @@
         </nav>
     </header>
 
-    <!-- About Container -->
     <div class="container">
         <h1>About UAE-FragBot</h1>
         <p>UAE-FragBot is a cutting-edge chatbot designed to enhance your fragrance shopping experience. Whether you're a fragrance enthusiast, a beginner, or someone simply looking for the perfect scent, UAE-FragBot is here to assist you every step of the way.</p>
@@ -202,7 +197,7 @@
 
         <div class="section">
             <h2>Why UAE-FragBot?</h2>
-            <i class="fas fa-lightbulb icon"></i> <!-- Replaced heart icon with a thinking face (lightbulb) -->
+            <i class="fas fa-lightbulb icon"></i>
             <p>Our chatbot is tailored to UAE fragrance enthusiasts, offering a seamless and time-saving experience for discovering your perfect scent. With advanced features and AI-driven insights, UAE-FragBot ensures you enjoy an effortless journey to find the perfect fragrance.</p>
         </div>
     </div>

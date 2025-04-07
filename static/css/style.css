@@ -1,5 +1,3 @@
-/* General Styling */
-
 /* Container Styling */
 .container {
     max-width: 800px;
@@ -204,44 +202,44 @@ button:hover {
     border-radius: 10px;
     margin: 20px auto;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: left; /* Left align the text */
-    line-height: 1.6; /* Improve readability with better line height */
-    font-size: 1em; /* Ensure consistent text size */
+    text-align: left;
+    line-height: 1.6;
+    font-size: 1em;
 }
 
 /* Guide Section */
 .guide-section {
-    margin-bottom: 20px; /* Add spacing between sections */
+    margin-bottom: 20px;
 }
 
 /* Guide Header */
 .guide-container h2,
 .guide-container h3 {
-    margin-bottom: 10px; /* Add spacing below headers */
-    color: #4a4a4a; /* Consistent header color */
-    font-size: 1.5em; /* Adjust font size for headers */
+    margin-bottom: 10px;
+    color: #4a4a4a;
+    font-size: 1.5em;
 }
 
 /* Guide List */
 .guide-container ul {
-    list-style: disc inside; /* Keep bullets aligned inside */
-    margin: 10px 0 10px 20px; /* Add space between list items and the container */
-    padding-left: 0; /* Avoid unnecessary padding */
+    list-style: disc inside;
+    margin: 10px 0 10px 20px;
+    padding-left: 0;
 }
 
 .guide-container ul li {
-    margin-bottom: 8px; /* Add space between items */
-    line-height: 1.4; /* Ensure readability for longer lines */
-    color: #333; /* Match text color with the rest */
-    font-size: 1em; /* Consistent font size */
+    margin-bottom: 8px;
+    line-height: 1.4;
+    color: #333;
+    font-size: 1em;
 }
 
 /* Specific Query Styles */
 .guide-container ul li code {
     font-family: 'Playfair Display', serif;
     font-size: 1.1em;
-    color: #333; /* Match the text color */
-    font-style: normal; /* Normal font, not italic */
+    color: #333;
+    font-style: normal;
     background: none;
     border: none;
     padding: 0;
@@ -254,22 +252,22 @@ button:hover {
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1em;
-    width: 100%; /* Full width for better alignment */
+    width: 100%;
     background-color: #fff;
-    color: #333; /* Match text color */
+    color: #333;
 }
 
 /* Dropdown Options */
 #perfume-names option {
     font-size: 1em;
-    color: #333; /* Match text color */
-    text-transform: capitalize; /* Ensure text looks clean */
+    color: #333;
+    text-transform: capitalize;
 }
 /* Dropdown Styling */
 select {
-    font-family: 'Playfair Display', serif; /* Match the font style */
-    font-size: 16px; /* Match the font size */
-    color: #333; /* Text color */
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: #333;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -286,9 +284,9 @@ select:hover, select:focus {
 
 /* Dropdown Option Styling */
 select option {
-    font-family: 'Playfair Display', serif; /* Ensure font consistency */
+    font-family: 'Playfair Display', serif;
     font-size: 16px;
-    color: #333; /* Option text color */
+    color: #333;
 }
 /* Input Field Styling */
 #user_input {
@@ -298,58 +296,56 @@ select option {
     border-radius: 25px;
     box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1), inset -2px -2px 5px rgba(255, 255, 255, 0.7);
     font-size: 1em;
-    font-family: 'Playfair Display', serif; /* Ensure the font matches the rest of the text */
-    color: #333; /* Text color */
+    font-family: 'Playfair Display', serif;
+    color: #333;
     margin-right: 10px;
     outline: none;
-    background-color: #fff; /* Ensure a clean background */
+    background-color: #fff;
 }
 
 #user_input::placeholder {
-    font-family: 'Playfair Display', serif; /* Matches the app font */
-    color: #aaa; /* Placeholder text color */
-    font-size: 1em; /* Ensure consistency with input text */
+    font-family: 'Playfair Display', serif;
+    color: #aaa;
+    font-size: 1em;
 }
 /* Suggestions Wrapper Inside Main Container */
 .suggestions-wrapper {
     display: flex;
-    flex-wrap: wrap; /* Allow wrapping for suggestions */
-    gap: 10px; /* Space between suggestion fields */
-    margin-top: 20px; /* Space between input and suggestions */
-    justify-content: center; /* Center-align the suggestions */
-    padding: 10px 0; /* Add padding for spacing */
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: center;
+    padding: 10px 0;
 }
 
 /* Individual Suggestion Field */
 .suggestion-field {
     display: inline-block;
     padding: 10px 20px;
-    background: linear-gradient(145deg, #ffffff, #f1f1f1); /* Add a soft gradient */
-    border-radius: 25px; /* Smooth edges */
+    background: linear-gradient(145deg, #ffffff, #f1f1f1);
+    border-radius: 25px;
     font-size: 1em;
-    font-family: 'Playfair Display', serif; /* Match the font style */
+    font-family: 'Playfair Display', serif;
     color: #333;
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     text-align: center;
-    white-space: nowrap; /* Prevent breaking inside suggestion fields */
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1), -2px -2px 5px rgba(255, 255, 255, 0.7); /* Soft shadow */
+    white-space: nowrap;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1), -2px -2px 5px rgba(255, 255, 255, 0.7);
 }
 
 /* Hover Effect for Suggestion Field */
 .suggestion-field:hover {
-    background-color: #eaeaea; /* Slightly darker hover effect */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15); /* Elevated shadow on hover */
-    color: #007BFF; /* Highlight text color */
+    background-color: #eaeaea;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    color: #007BFF;
 }
 
 /* Active Suggestion Field */
 .suggestion-field:active {
-    background-color: #ddd; /* Pressed effect */
-    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1); /* Inner shadow */
+    background-color: #ddd;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
-/*----------------------------------------------------------*/
-/* Home Page Styles */
 
 
 

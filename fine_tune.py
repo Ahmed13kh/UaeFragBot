@@ -1,6 +1,6 @@
 import openai
 
-openai.api_key = "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"
+openai.api_key = "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"
 response = openai.FineTuningJob.create(
     training_file="file-AFKRtmMTDiEaWjnvMGaA3p",
     model="gpt-4o-2024-08-06"

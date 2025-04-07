@@ -5,50 +5,46 @@ import random
 import re
 from fragrance_notes import fragrance_notes
 
+# Initialize Flask app and OpenAI key
 app = Flask(__name__)
+openai.api_key = "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"
 
-openai.api_key = "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"
-
-
-# Load perfume data
+# Load perfume dataset from JSON file
 with open("perfume_data.json", "r") as file:
     perfume_data = json.load(file)
 
-
+# Normalize strings for consistent comparison
 def normalize_attribute(attribute):
     if isinstance(attribute, str):
-        attribute = attribute.lower()  # Convert to lowercase
-        attribute = re.sub(r'[-_]', ' ', attribute)  # Replace hyphens and underscores with spaces
-        attribute = re.sub(r'[^\w\s]', '', attribute)  # Remove all non-alphanumeric characters except spaces
-        attribute = re.sub(r'\s+', ' ', attribute)  # Collapse multiple spaces into one
-        return attribute.strip()  # Remove leading and trailing spaces
-    return attribute  # Return non-string attributes as-is
+        attribute = attribute.lower()
+        attribute = re.sub(r'[-_]', ' ', attribute)
+        attribute = re.sub(r'[^\w\s]', '', attribute)
+        attribute = re.sub(r'\s+', ' ', attribute)
+        return attribute.strip()
+    return attribute
 
-# Normalize perfume data
+# Clean and normalize key attributes for each perfume
 for perfume in perfume_data:
     perfume['name'] = normalize_attribute(perfume.get('name', ''))
     perfume['designer'] = normalize_attribute(perfume.get('designer', 'unknown'))
     perfume['longevity'] = normalize_attribute(perfume.get('longevity', 'unknown'))
     perfume['sillage'] = normalize_attribute(perfume.get('sillage', 'unknown'))
     perfume['description'] = normalize_attribute(perfume.get('description', ''))
-    perfume['rating'] = perfume.get('rating', 0)  # Keep numeric values as-is
+    perfume['rating'] = perfume.get('rating', 0)
     perfume['gender'] = normalize_attribute(perfume.get('gender', 'unknown'))
     perfume['season'] = normalize_attribute(perfume.get('season', 'unknown'))
 
-# Extract preferences with flexible matching
+# Extract structured preferences from user input
 def extract_preferences(user_input):
     preferences = {}
-
-    # Normalize user input
     user_input = normalize_attribute(user_input)
 
-    # Match fragrance notes in the description
     for note in fragrance_notes:
         if note in user_input:
-            preferences["description_match"] = note
+            preferences["notes_match"] = note
             break
 
-    # Match notes in perfume data
+    # Check if input matches notes from perfume dataset
     notes_attributes = ['top notes', 'mid notes', 'base notes']
     for perfume in perfume_data:
         for attr in notes_attributes:
@@ -56,7 +52,7 @@ def extract_preferences(user_input):
                 preferences["notes_match"] = perfume['name']
                 break
 
-    # Match attributes: longevity, sillage, pricevalue, gender
+    # Check for other attributes like longevity, season, etc.
     attributes = {
         "longevity": {perfume['longevity'] for perfume in perfume_data},
         "sillage": {perfume['sillage'] for perfume in perfume_data},
@@ -71,193 +67,174 @@ def extract_preferences(user_input):
                 preferences[attr] = value
                 break
 
-    # Match rating-related intent with flexible synonyms
     rating_synonyms = {"highly rated", "top rated", "best rated", "best", "good rating", "high rating"}
-    # Normalize rating synonyms for flexibility
     normalized_synonyms = {normalize_attribute(synonym) for synonym in rating_synonyms}
-
-    # Check for matches in user input
     if any(synonym in user_input for synonym in normalized_synonyms):
-        preferences["rating"] = 4.0  # Threshold for "highly rated"
-
+        preferences["rating"] = 4.0
     return preferences
 
-
+# Match perfume by name
 def find_perfume_by_name(user_input):
-    # Allow alphanumeric characters, spaces, and specific punctuations (e.g., | and numbers)
-    cleaned_input = normalize_attribute(re.sub(r"[^\w\s|]", "", user_input))
+    cleaned_input = normalize_attribute(re.sub(r"[^\w\s|]", "", user_input)).strip()
 
     for perfume in perfume_data:
-        perfume_name = normalize_attribute(perfume['name'])
-        designer_name = normalize_attribute(perfume['designer'])
+        perfume_name = normalize_attribute(perfume['name']).strip()
 
-        # Case 1: Match exact name and designer
-        if cleaned_input == f"{perfume_name} {designer_name}" or cleaned_input == f"{designer_name} {perfume_name}":
-            return format_perfume_response(perfume)
-
-        # Case 2: Match exact name only
         if cleaned_input == perfume_name:
             return format_perfume_response(perfume)
 
-
-    # No matches found
     return None
 
-
+# Filter perfumes based on extracted preferences
 def recommend_perfumes_by_criteria(criteria, num_recommendations=3):
     recommendations = []
     for perfume in perfume_data:
         match = True
         for key, value in criteria.items():
             value_lower = normalize_attribute(value)
-            if key == "description_match":
-                # Match description with fragrance_notes
-                if value_lower not in perfume.get('description', ''):
-                    match = False
-                    break
-            elif key == "notes_match":
-                # Match notes in perfume data
+            if key == "notes_match":
                 notes_attributes = ['top notes', 'mid notes', 'base notes']
                 if not any(value_lower in note.lower() for attr in notes_attributes for note in perfume.get(attr, [])):
                     match = False
                     break
             elif key == "rating":
-                if perfume['rating'] < value:  # Handle numeric attribute
+                if perfume['rating'] < value:
                     match = False
                     break
             else:
-                # Match other attributes (exact match)
                 if normalize_attribute(perfume.get(key, '')) != value_lower:
                     match = False
                     break
         if match:
             recommendations.append(format_perfume_response(perfume))
-
     random.shuffle(recommendations)
     return recommendations[:num_recommendations]
 
-
-# Format perfume response
+# Format perfume info for display
 def format_perfume_response(perfume):
+    def format_text(text):
+        if not text:
+            return ""
+        text = text.strip()
+        text = text[0].upper() + text[1:]
+        if not text.endswith('.'):
+            text += '.'
+        return text
+
+    def format_notes(notes):
+        formatted = ', '.join(note.strip().capitalize() for note in notes if note.strip())
+        return formatted + '.' if formatted else ""
+
     return {
         "name": perfume['name'].title(),
         "designer": perfume['designer'].title(),
-        "gender": perfume['gender'],
+        "gender": perfume['gender'].capitalize(),
         "rating": f"{perfume['rating']}/5",
-        "description": perfume['description'],
-        "season": perfume['season'],
-        "top_notes": ', '.join(perfume.get('top notes', [])),
-        "mid_notes": ', '.join(perfume.get('mid notes', [])),
-        "base_notes": ', '.join(perfume.get('base notes', [])),
-        "longevity": perfume['longevity'],
-        "sillage": perfume['sillage'],
-        "pricevalue": perfume['pricevalue'],
+        "description": format_text(perfume['description']),
+        "season": perfume['season'].capitalize(),
+        "top_notes": format_notes(perfume.get('top notes', [])),
+        "mid_notes": format_notes(perfume.get('mid notes', [])),
+        "base_notes": format_notes(perfume.get('base notes', [])),
+        "longevity": perfume['longevity'].capitalize(),
+        "sillage": perfume['sillage'].capitalize(),
+        "pricevalue": perfume['pricevalue'].capitalize(),
         "link": perfume.get('url', ''),
         "image": perfume.get('image', '')
     }
 
-
 @app.route('/')
 def homepage():
     return render_template('home.html')
+
 @app.route('/chatbot')
 def chatbot():
-    # Render the index.html for the chatbot functionality
     return render_template('index.html', perfume_data=perfume_data, fragrance_notes=fragrance_notes)
+
 @app.route('/privacy-policy')
 def privacy_policy():
     return render_template('privacy-policy.html')
+
 @app.route('/about')
 def about():
-    return render_template('about.html')  # Create an 'about.html' template
+    return render_template('about.html')
+
 @app.route('/contact')
 def contact():
-    return render_template('contact.html')  # Create a 'contact.html' template
+    return render_template('contact.html')
 
+# Form-based perfume recommendation route
 @app.route('/recommend', methods=['GET', 'POST'])
 def recommend():
-    designers = sorted(set([perfume['designer'].title() for perfume in perfume_data]))
-  # Sorted designers list
+    designers = sorted(set(p['designer'].title() for p in perfume_data))
+
     if request.method == 'POST':
-        # Get the selected preferences from the form
         selected_designer = request.form.get('designer')
         selected_gender = request.form.get('gender')
         selected_season = request.form.get('season')
 
-        # Filter perfumes based on the selected preferences
+        # Filter perfumes based on form input
         filtered_perfumes = [
-            perfume for perfume in perfume_data
-            if (selected_designer.lower() in perfume['designer'].lower() if selected_designer else True) and
-               (selected_gender.lower() in perfume['gender'].lower() if selected_gender else True) and
-               (selected_season.lower() in perfume['season'].lower() if selected_season else True)
+            p for p in perfume_data
+            if (selected_designer.lower() in p['designer'].lower() if selected_designer else True) and
+               (selected_gender.lower() in p['gender'].lower() if selected_gender else True) and
+               (selected_season.lower() in p['season'].lower() if selected_season else True)
         ]
 
-        # Format the filtered perfumes for display
-        formatted_perfumes = [format_perfume_response(perfume) for perfume in filtered_perfumes]
-
-        # Set the no_recommendations flag if no matches
+        formatted_perfumes = [format_perfume_response(p) for p in filtered_perfumes]
         no_recommendations = len(formatted_perfumes) == 0
 
-        return render_template('recommend.html', perfumes=formatted_perfumes, designers= designers,
+        return render_template('recommend.html',
+                               perfumes=formatted_perfumes,
+                               designers=designers,
                                no_recommendations=no_recommendations)
-    else:
-        return render_template('recommend.html', perfumes=[], designers= designers, no_recommendations=False)
 
+    return render_template('recommend.html', perfumes=[], designers=designers, no_recommendations=False)
 
+# Main chatbot route for handling user queries
 @app.route('/chat', methods=['POST'])
 def chat():
     try:
         user_input = request.form['user_input'].lower()
 
-        # Check for specific perfume queries with flexible intent extraction
+        # Check if user is asking about a specific perfume
         intent_match = re.search(
-            r"(tell me about|describe|what can you say about|give me details about|talk about)\s+(.*)", user_input,
-            re.IGNORECASE)
+            r"(tell me about|describe|what can you say about|give me details about|talk about)\s+(.*)",
+            user_input, re.IGNORECASE)
         if intent_match:
             perfume_name = intent_match.group(2).strip()
             perfume_details = find_perfume_by_name(perfume_name)
             if perfume_details:
                 return jsonify({"structured": perfume_details})
-            else:
-                # Fallback to fine-tuned GPT for general response
-                response = fallback_general_response(user_input)
-                return jsonify({"response": response})
-
-        # Extract preferences
+            
+        # Extract and match user preferences
         criteria = extract_preferences(user_input)
-
-        # Recommend based on criteria
         if criteria:
             recommendations = recommend_perfumes_by_criteria(criteria)
             if recommendations:
                 return jsonify({"structured": recommendations})
-            else:
-                # Fallback to fine-tuned GPT for general response
-                response = fallback_general_response(user_input)
-                return jsonify({"response": response})
 
-        # Fallback: Use fine-tuned GPT for general queries
-        response = fallback_general_response(user_input)
+        # Fallback to GPT response
+        response = fine_tuned_gpt(user_input)
         return jsonify({"response": response})
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
-# Helper function for GPT fallback
-def fallback_general_response(user_input):
+# GPT logic if no structured response found or for general queries
+def fine_tuned_gpt(user_input):
     try:
         response = openai.ChatCompletion.create(
             model="ft:gpt-4o-2024-08-06:personal::AjoMgZCP",
             messages=[
-                {"role": "system", "content": "You are a knowledgeable and friendly perfume consultant specializing in UAE perfumes only."},
+                {"role": "system",
+                 "content": "You are a knowledgeable and friendly perfume consultant specializing in UAE perfumes only."},
                 {"role": "user", "content": user_input}
             ],
             max_tokens=500
         )
         return response['choices'][0]['message']['content'].strip()
-    except Exception as e:
+    except Exception:
         return "I'm sorry, but I couldn't process your request right now. Please try again later."
+
 if __name__ == '__main__':
     app.run(debug=False)
-
