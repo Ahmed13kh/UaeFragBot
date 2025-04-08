@@ -33,7 +33,7 @@ for perfume in perfume_data:
     perfume['gender'] = normalize_attribute(perfume.get('gender', 'unknown'))
     perfume['season'] = normalize_attribute(perfume.get('season', 'unknown'))
 
-# Extract structured preferences from user input
+# Extract preferences from user input
 def extract_preferences(user_input):
     preferences = {}
     user_input = normalize_attribute(user_input)
