@@ -8,11 +8,11 @@ from fragrance_notes import fragrance_notes
 app = Flask(__name__)
 openai.api_key = "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"
 
-# Load perfume dataset from JSON file
+# Loading perfume dataset from JSON file
 with open("perfume_data.json", "r") as file:
     perfume_data = json.load(file)
 
-# Normalize strings for consistent comparison
+# Normalizing strings for consistent comparison
 def normalize_attribute(attribute):
     if isinstance(attribute, str):
         attribute = attribute.lower()
@@ -22,7 +22,7 @@ def normalize_attribute(attribute):
         return attribute.strip()
     return attribute
 
-# Clean and normalize key attributes for each perfume
+# Cleaning and normalizing key attributes for each perfume
 for perfume in perfume_data:
     perfume['name'] = normalize_attribute(perfume.get('name', ''))
     perfume['designer'] = normalize_attribute(perfume.get('designer', 'unknown'))
@@ -33,7 +33,7 @@ for perfume in perfume_data:
     perfume['gender'] = normalize_attribute(perfume.get('gender', 'unknown'))
     perfume['season'] = normalize_attribute(perfume.get('season', 'unknown'))
 
-# Extract preferences from user input
+# Extracting preferences from user input
 def extract_preferences(user_input):
     preferences = {}
     user_input = normalize_attribute(user_input)
@@ -43,7 +43,7 @@ def extract_preferences(user_input):
             preferences["notes_match"] = note
             break
 
-    # Check if input matches notes from perfume dataset
+    # Checking if input matches notes from perfume dataset
     notes_attributes = ['top notes', 'mid notes', 'base notes']
     for perfume in perfume_data:
         for attr in notes_attributes:
@@ -51,7 +51,7 @@ def extract_preferences(user_input):
                 preferences["notes_match"] = perfume['name']
                 break
 
-    # Check for other attributes like longevity, season, etc.
+    # Checking for other attributes like longevity, season, etc.
     attributes = {
         "longevity": {perfume['longevity'] for perfume in perfume_data},
         "sillage": {perfume['sillage'] for perfume in perfume_data},
@@ -72,7 +72,7 @@ def extract_preferences(user_input):
         preferences["rating"] = 4.0
     return preferences
 
-# Match perfume by name
+# Matching perfume by name
 def find_perfume_by_name(user_input):
     cleaned_input = normalize_attribute(re.sub(r"[^\w\s|]", "", user_input)).strip()
 
@@ -84,7 +84,7 @@ def find_perfume_by_name(user_input):
 
     return None
 
-# Filter perfumes based on extracted preferences
+# Filtering perfumes based on extracted preferences
 def recommend_perfumes_by_criteria(criteria, num_recommendations=3):
     recommendations = []
     for perfume in perfume_data:
@@ -109,7 +109,7 @@ def recommend_perfumes_by_criteria(criteria, num_recommendations=3):
     random.shuffle(recommendations)
     return recommendations[:num_recommendations]
 
-# Format perfume info for display
+# Formating perfume info for display
 def format_perfume_response(perfume):
     def format_text(text):
         if not text:
@@ -171,7 +171,6 @@ def recommend():
         selected_gender = request.form.get('gender')
         selected_season = request.form.get('season')
 
-        # Filter perfumes based on form input
         filtered_perfumes = [
             p for p in perfume_data
             if (selected_designer.lower() in p['designer'].lower() if selected_designer else True) and
@@ -195,7 +194,7 @@ def chat():
     try:
         user_input = request.form['user_input'].lower()
 
-        # Check if user is asking about a specific perfume
+        # Checking if user is asking about a specific perfume
         intent_match = re.search(
             r"(tell me about|describe|what can you say about|give me details about|talk about)\s+(.*)",
             user_input, re.IGNORECASE)
@@ -205,7 +204,7 @@ def chat():
             if perfume_details:
                 return jsonify({"structured": perfume_details})
 
-        # Extract and match user preferences
+        # Extracting and matching user preferences
         criteria = extract_preferences(user_input)
         if criteria:
             recommendations = recommend_perfumes_by_criteria(criteria)
