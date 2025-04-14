@@ -11,12 +11,9 @@ Perfume shopping can be overwhelming—especially in a fragrance-rich market lik
 ## 🚀 Features
 
 ### 🧠 AI Chatbot
-- Answers queries like:
-  - “Describe *Khamrah* by Lattafa”
-  - “Suggest a woody winter fragrance for men”
-  - “Compare Perfume A and Perfume B”
-- Returns structured responses including notes, longevity, sillage, and designer info.
-- Understand fragrance terms, concentrations, and UAE’s perfumery culture.
+ 
+- Returns conversational and structured responses.
+- Specialized in UAE fragrance knowledge and perfumery culture.
 - Ideal for enthusiasts and aspiring perfume creators.
 
 ### 📋 Recommendation Machine
