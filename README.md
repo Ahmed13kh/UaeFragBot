@@ -46,7 +46,7 @@ Perfume shopping can be overwhelming—especially in a fragrance-rich market lik
 
 1.  
    ```bash
-   git clone git@git.cs.bham.ac.uk:projects-2024-25/ake179.git
+   git clone git@github.com:Username/UaeFragBot.git
    cd UaeFragBot 
    pip install -r requirements.txt
    npm install
@@ -64,8 +64,7 @@ Perfume shopping can be overwhelming—especially in a fragrance-rich market lik
 
 🌐 Larger dataset and multilingual support
    
-## 🙋 Developer 
-Ahmed Khalid KhalafAllah Elkhedir 2253779
+ 
 
  
  
